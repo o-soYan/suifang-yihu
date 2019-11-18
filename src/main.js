@@ -3,18 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-<<<<<<< HEAD
-import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import './assets/css/reset.css'
 import './assets/js/rem'
-=======
-import {
-  Swipe, SwipeItem
-} from 'mint-ui'
+import { Swipe, SwipeItem } from 'mint-ui'
+
 Vue.component(Swipe.name, Swipe)
 Vue.component(SwipeItem.name, SwipeItem)
->>>>>>> e3121cf79df44bec1f7fba1292887fb8d075b928
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

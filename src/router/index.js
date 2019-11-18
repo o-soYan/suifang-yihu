@@ -1,5 +1,4 @@
 import Vue from 'vue'
-<<<<<<< HEAD
 import VueRouter from 'vue-router'
 import routeConfig from './routes'
 
@@ -13,29 +12,6 @@ VueRouter.prototype.push = function push (location) {
 const router = new VueRouter({
   routes: routeConfig
   // mode: 'history'
-=======
-import Router from 'vue-router'
-import Home from '@/views/home.vue'
-
-Vue.use(Router)
-
-export default new Router({
-  routes: [
-    {
-      name: 'default',
-      path: '/',
-      redirect: {
-        name: 'Home'
-      }
-    },
-    {
-      name: 'Home',
-      path: '/home',
-      component: Home
-    }
-
-  ]
->>>>>>> e3121cf79df44bec1f7fba1292887fb8d075b928
 })
 
 export default router
