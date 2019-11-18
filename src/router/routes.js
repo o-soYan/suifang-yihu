@@ -1,6 +1,6 @@
 
 import app from '@/App.vue'
-import home from '@/pages/home'
+import home from '@/views/pages/home'
 const routes = [
   {
     path: '',
