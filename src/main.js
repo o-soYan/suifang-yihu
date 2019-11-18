@@ -3,9 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import 'mint-ui/lib/style.css'
 import './assets/css/reset.css'
 import './assets/js/rem'
+import NutUI from '@nutui/nutui'
+import '@nutui/nutui/dist/nutui.css'
+
+NutUI.install(Vue)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
