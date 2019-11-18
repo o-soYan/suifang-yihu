@@ -6,10 +6,11 @@ import router from './router'
 import 'mint-ui/lib/style.css'
 import './assets/css/reset.css'
 import './assets/js/rem'
-import { Swipe, SwipeItem } from 'mint-ui'
+import {
+  Button
+} from 'mint-ui'
 
-Vue.component(Swipe.name, Swipe)
-Vue.component(SwipeItem.name, SwipeItem)
+Vue.component(Button.name, Button)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
