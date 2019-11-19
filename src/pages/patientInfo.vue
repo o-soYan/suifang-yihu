@@ -33,5 +33,26 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+.patientInfoContainer {
+  font-size: 0.32rem;
+  .patientBaseInfo {
+    display: flex;
+    height: 1.4rem;
+    padding: 0.2rem;
+    .headLogo {
+      flex: 1;
+      line-height: 1.4rem;
+      height: 100%;
+      img {
+        height: 80%;
+      }
+    }
+    .userInfo {
+      flex: 6;
+      line-height: 1.5;
+      text-align: left;
+      font-size: 0.28rem;
+    }
+  }
+}
 </style>
