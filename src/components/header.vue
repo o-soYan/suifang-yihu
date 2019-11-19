@@ -16,7 +16,7 @@
         class="left-icon"
         :class="rightBtn.number === 2 ? 'mr' : ''"
         @click="back">
-        <i class="iconfont icon-fanhui1"></i>
+        <van-icon name="arrow-left" />
       </div>
       <div class="title">
         <div v-if="isTitle" class="title-content" @click="handleTitle">
@@ -222,6 +222,7 @@ export default {
           display: flex;
           align-items: center;
           justify-content: center;
+          line-height: 1.5;
           span {
             display: flex;
             align-items: center;
