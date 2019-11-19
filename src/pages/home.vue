@@ -8,8 +8,21 @@
 </van-swipe>
 
 <van-tabs type="card" color='#87CEFA'>
-  <van-tab title="发布中">内容 1</van-tab>
-  <van-tab title="已结束">内容 2</van-tab>
+  <van-tab title="发布中">
+      <div class="tab_content">
+<div class="tab_name">满意度调查</div>
+<div class="tab_progress">
+<van-progress :percentage="100" stroke-width="26" color="#f2826a"/>
+
+</div>
+<div class="tab_time">
+    <span class="">PAC</span>
+    2019/10/22
+</div>
+      </div>
+  </van-tab>
+  <van-tab title="已结束"><van-progress :percentage="50" stroke-width="28" color="#f2826a"/>
+</van-tab>
   <van-tab title="异常患者">内容 3</van-tab>
 </van-tabs>
 </div>
@@ -30,5 +43,30 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+/deep/.van-progress__pivot{
+    position: unset;
+    font-size: 0.32rem
+}
+.tab_progress{
+    // flex: 3
+}
+.tab_content{
+    margin: 0.24rem 0.12rem;
+    padding: 0.22em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow:0 0 10px #D3D3D3;
+    border:1px solid #dedede;
+    border-radius: 0.12rem;
+    &>div {
+        width: 33%;
+    }
+}
+.tab_time{
+// flex: 1;
+}
+.tab_name{
+// flex: 2
+}
 </style>
