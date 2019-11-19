@@ -5,7 +5,13 @@ import App from './App'
 import router from './router'
 import './assets/css/reset.css'
 import './assets/js/rem'
+import Vant, {
+  Lazyload
+} from 'vant'
+import 'vant/lib/index.css'
+Vue.use(Lazyload)
 
+Vue.use(Vant)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
