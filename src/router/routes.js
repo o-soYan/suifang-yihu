@@ -8,6 +8,7 @@ import noDoQuesDetail from '@/pages/noDoQuesDetail'
 import statistics from '@/pages/statistics'
 import remindLogDetail from '@/pages/remindLogDetail'
 import callLog from '@/pages/callLog'
+import SatisfactionSta from '@/pages/SatisfactionSta'
 
 const routes = [{
   path: '',
@@ -76,6 +77,13 @@ const routes = [{
     path: '/callLog',
     name: 'callLog',
     component: callLog,
+    meta: {
+      keepAlive: false
+    }
+  }, {
+    path: '/SatisfactionSta',
+    name: 'SatisfactionSta',
+    component: SatisfactionSta,
     meta: {
       keepAlive: false
     }

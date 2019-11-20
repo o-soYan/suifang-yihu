@@ -1,8 +1,6 @@
 <template>
 <div class="statistics">
-    11111111
 <div id="main" :style="{width:windowWidth + 'px', height:windowWidth + 'px'}">
-
 </div>
 </div>
 </template>
@@ -29,8 +27,9 @@ export default {
       var myChart = echarts.init(document.getElementById('main'))
       // 绘制图表
       myChart.setOption({
+        color: ['#66CCFF', '#FF9900'],
         title: {
-          text: 'ECharts 入门示例'
+          text: ''
         },
         tooltip: {},
         // xAxis: {
@@ -40,7 +39,9 @@ export default {
         series: [{
           name: '销量',
           type: 'pie',
-          data: [5, 20, 36, 10, 10, 20]
+          data: [ {value: 31.48, name: '药流'},
+            {value: 68.52, name: '手术'}
+          ]
         }]
       })
       setTimeout(function () {
