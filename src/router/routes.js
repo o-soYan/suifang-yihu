@@ -6,6 +6,8 @@ import remindLog from '@/pages/remindLog'
 import DoneQuesDetail from '@/pages/DoneQuesDetail'
 import noDoQuesDetail from '@/pages/noDoQuesDetail'
 import statistics from '@/pages/statistics'
+import remindLogDetail from '@/pages/remindLogDetail'
+import callLog from '@/pages/callLog'
 
 const routes = [{
   path: '',
@@ -56,11 +58,24 @@ const routes = [{
     meta: {
       keepAlive: false
     }
-  },
-  {
+  }, {
     path: '/statistics',
     name: 'statistics',
     component: statistics,
+    meta: {
+      keepAlive: false
+    }
+  }, {
+    path: '/remindLogDetail',
+    name: 'remindLogDetail',
+    component: remindLogDetail,
+    meta: {
+      keepAlive: false
+    }
+  }, {
+    path: '/callLog',
+    name: 'callLog',
+    component: callLog,
     meta: {
       keepAlive: false
     }

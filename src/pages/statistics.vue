@@ -1,24 +1,27 @@
 <template>
 <div class="statistics">
     11111111
-<div class="main" style="width:600px;height:400px;margin-left:25%;margin-top:8%">
+<div id="main" :style="{width:windowWidth + 'px', height:windowWidth + 'px'}">
 
 </div>
 </div>
 </template>
 <script>
 // 引入 ECharts 主模块
-var echarts = require('echarts/lib/echarts')
+var echarts = require('echarts')
 // 引入柱状图
-require('echarts/lib/chart/bar')
+require('echarts/lib/chart/pie')
 // 引入提示框和标题组件
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
 export default {
   data () {
     return {
-
+      windowWidth: ''
     }
+  },
+  created () {
+    this.windowWidth = window.innerWidth
   },
   methods: {
     getEcharts () {
@@ -30,16 +33,21 @@ export default {
           text: 'ECharts 入门示例'
         },
         tooltip: {},
-        xAxis: {
-          data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
-        },
-        yAxis: {},
+        // xAxis: {
+        //   data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+        // },
+        // yAxis: {},
         series: [{
           name: '销量',
-          type: 'bar',
+          type: 'pie',
           data: [5, 20, 36, 10, 10, 20]
         }]
       })
+      setTimeout(function () {
+        window.onresize = function () {
+          myChart.resize({width: window.innerWidth, height: window.innerHeight})
+        }
+      }, 200)
     }
   },
   mounted () {

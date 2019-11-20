@@ -2,11 +2,9 @@
   <div class="doQuestions container">
     <Header
       :isTitle="true"
-      title="问卷调查"
+      title="预览"
       :isScan="false"
-      :isBack="true"
-      :rightBtn="rightBtn"
-      @handleText="handleText">
+      :isBack="true">
     </Header>
     <div class="allContent">
       <div class="topTitle">
@@ -119,9 +117,11 @@ export default {
     }
     .topic {
       font-size: 0.34rem;
+      line-height: 1.5;
     }
   }
   .questionsContent {
+    padding-bottom: 1rem;
     .questionItem{
       margin-top: 0.4rem;
       text-align: left;
@@ -136,7 +136,7 @@ export default {
         font-size: 0.3rem;
         border: 1px solid #e5e5e5;
         border-radius: 0.1rem;
-        padding: 0.1rem 0.2rem;
+        padding: 0.2rem;
         margin-top: 0.2rem;
         &.cellClick {
           color: cornflowerblue;
