@@ -16,7 +16,6 @@
       <span :class="{ cur: now === '答题详情' }" @click="now = '答题详情'"
         >答题详情</span
       >
-      <!-- <span :class="{'cur': now === '英语'}" @click="now = '英语'">英语</span> -->
     </div>
     <div class="bd">
       <div v-show="now === '统计报表'">
@@ -67,15 +66,24 @@
         </div>
       </div>
       <div v-show="now === '答题详情'">
-        <ul>
-          <li v-for="i in 5" :key="i">三角函数</li>
-        </ul>
+      <div class="personnel_content">
+       <div class="personnel_list" v-for="(item,index) in personnel" :key="index">
+        <div class="list_content">
+            <div class="user_logo">
+  <img :src="item.src" alt="">
+
+            </div>
+
+  <div class="answer_name">{{item.name}}</div>
+  <div class="answer_state">
+      <span>{{item.state}}</span></div>
+  <div class="answer_details"><router-link to="/">查看详情</router-link></div>
+
+        </div>
+       </div>
       </div>
-      <div v-show="now === '英语'">
-        <ul>
-          <li v-for="i in 5" :key="i">Never postpone joy.</li>
-        </ul>
       </div>
+
     </div>
   </div>
 </template>
@@ -91,7 +99,21 @@ export default {
   data () {
     return {
       now: '统计报表',
-      windowWidth: ''
+      windowWidth: '',
+      personnel: [
+        {src: 'http://img4.imgtn.bdimg.com/it/u=1076581556,1614991964&fm=15&gp=0.jpg',
+          name: '张三女',
+          state: '已完成'
+        },
+        {src: 'http://img4.imgtn.bdimg.com/it/u=2458315308,1891866290&fm=15&gp=0.jpg',
+          name: '张444',
+          state: '已完成'
+        },
+        {src: 'http://img3.imgtn.bdimg.com/it/u=1536694097,658034884&fm=15&gp=0.jpg',
+          name: '张000',
+          state: '未完成'
+        }
+      ]
     }
   },
   created () {
@@ -207,6 +229,45 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.list_content{
+display: flex;
+justify-content: space-between;
+align-items: center;
+border-bottom: 1px solid #ccc;
+padding:10px 0;
+}
+.personnel_content .personnel_list{
+}
+.personnel_content .personnel_list .user_logo{
+flex: 3;
+text-align: center;
+}
+.personnel_content .personnel_list .user_logo img{
+width: 50%;
+}
+.personnel_content .personnel_list .answer_name{
+flex: 3
+}
+.personnel_content .personnel_list .answer_state{
+flex:3;
+width: 10px;
+}
+.personnel_content .personnel_list .answer_state span{
+    color: #fff;
+    padding: 0.08rem;
+    background: #009933;
+    font-size: 0.26rem
+}
+.personnel_content .list_content .answer_details{
+    flex: 3;
+}
+
+.personnel_content .list_content .answer_details a{
+// text-decoration:none;
+color: #2c3e50;
+font-size: 0.32rem;
+text-decoration: underline
+}
 .statistics_list {
   position: relative;
   margin: 20px;
@@ -278,7 +339,7 @@ export default {
 .bd {
   border-top: 1px solid #ccc;
   text-align: left;
-  padding: 20px;
+//   padding: 10px 20px;
 }
 .bd ul {
   list-style: none;
