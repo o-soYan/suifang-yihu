@@ -206,7 +206,7 @@ export default {
             data: [
               { value: 35, name: '一般' },
               { value: 48, name: '非常重要' },
-              { value: 51, name: '无关紧要' }
+              { value: 19, name: '无关紧要' }
               //   { value: 147, name: '必应' }
               //   {value: 102, name: '其他'}
             ]
@@ -277,13 +277,13 @@ text-decoration: underline
 }
 .statistics_name {
   flex: 4;
-  margin: 0 10px;
+  margin-left: 20px;
 }
 .dot {
   flex: 1;
   position: absolute;
   bottom: 10px;
-  left: -30px;
+  left: -0.12rem;
 }
 .dot div {
   width: 10px;
@@ -304,12 +304,7 @@ text-decoration: underline
   flex: 4;
   text-align: center;
 }
-* {
-  margin: 0;
-  padding: 0;
-}
 .SatisfactionSta {
-  //   width: 360px;
   font-size: 0.34rem;
 }
 .hd {
@@ -339,7 +334,7 @@ text-decoration: underline
 .bd {
   border-top: 1px solid #ccc;
   text-align: left;
-//   padding: 10px 20px;
+  padding: 0.66rem 0.26rem 0.26rem 0.26rem;
 }
 .bd ul {
   list-style: none;
