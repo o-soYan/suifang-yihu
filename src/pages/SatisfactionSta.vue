@@ -1,5 +1,5 @@
 <template>
-    <div class="SatisfactionSta">
+  <!-- <div class="SatisfactionSta">
         <van-tabs type="card" color="#87CEFA">
   <van-tab title="统计报表">
       <div>Q3: 您认为满意度调查重要吗?</div>
@@ -7,7 +7,77 @@
   <van-tab title="答题详情">内容 2</van-tab>
 </van-tabs>
 <div id="sati" :style="{width:windowWidth + 'px', height:windowWidth + 'px'}"></div>
+    </div> -->
+  <div class="SatisfactionSta">
+    <div class="hd">
+      <span :class="{ cur: now === '统计报表' }" @click="now = '统计报表'"
+        >统计报表</span
+      >
+      <span :class="{ cur: now === '答题详情' }" @click="now = '答题详情'"
+        >答题详情</span
+      >
+      <!-- <span :class="{'cur': now === '英语'}" @click="now = '英语'">英语</span> -->
     </div>
+    <div class="bd">
+      <div v-show="now === '统计报表'">
+        <div>Q3: 您认为满意度调查重要吗?</div>
+        <div
+          id="sati"
+          :style="{ width: windowWidth + 'px', height: windowWidth + 'px' }"
+        ></div>
+        <div class="statistics_list">
+          <div class="dot">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div class="statistics_name">
+            <ul>
+              <li>
+                选项
+              </li>
+
+              <li>
+                非常重要
+              </li>
+
+              <li>
+                一般
+              </li>
+
+              <li>
+                无关紧要
+              </li>
+            </ul>
+          </div>
+          <div class="statistics_result">
+            <ul>
+              <li>回复情况</li>
+              <li>0</li>
+              <li>2</li>
+              <li>5</li>
+            </ul>
+          </div>
+        </div>
+        <div class="answerNum">
+            <div class="answerNum_content">
+            共1人回答
+
+            </div>
+        </div>
+      </div>
+      <div v-show="now === '答题详情'">
+        <ul>
+          <li v-for="i in 5" :key="i">三角函数</li>
+        </ul>
+      </div>
+      <div v-show="now === '英语'">
+        <ul>
+          <li v-for="i in 5" :key="i">Never postpone joy.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 // 引入 ECharts 主模块
@@ -20,11 +90,13 @@ require('echarts/lib/component/title')
 export default {
   data () {
     return {
+      now: '统计报表',
       windowWidth: ''
     }
   },
   created () {
     this.windowWidth = window.innerWidth
+    console.log(window.innerWidth)
   },
   methods: {
     getEchartsa () {
@@ -59,14 +131,12 @@ export default {
                 show: false
               }
             },
-            data: [
-
-            ]
+            data: []
           },
           {
             name: '访问来源',
             type: 'pie',
-            radius: ['40%', '55%'],
+            radius: ['33%', '55%'],
             label: {
               normal: {
                 formatter: ' {abg|}{b|{b}: }{c}  ',
@@ -74,7 +144,7 @@ export default {
                 borderColor: '#aaa',
                 borderWidth: 1,
                 borderRadius: 4,
-                // shadowBlur:3,
+                // shadowBlur: 3,
                 // shadowOffsetX: 2,
                 // shadowOffsetY: 2,
                 // shadowColor: '#999',
@@ -99,7 +169,7 @@ export default {
                     height: 0
                   },
                   b: {
-                    fontSize: 16,
+                    fontSize: 12,
                     lineHeight: 33
                   },
                   per: {
@@ -112,21 +182,21 @@ export default {
               }
             },
             data: [
-              {value: 335, name: '直达'},
-              //   {value: 310, name: '邮件营销'},
-              //   {value: 234, name: '联盟广告'},
-              //   {value: 135, name: '视频广告'},
-              {value: 1048, name: '百度'},
-              {value: 251, name: '谷歌'},
-              {value: 147, name: '必应'}
-            //   {value: 102, name: '其他'}
+              { value: 35, name: '一般' },
+              { value: 48, name: '非常重要' },
+              { value: 51, name: '无关紧要' }
+              //   { value: 147, name: '必应' }
+              //   {value: 102, name: '其他'}
             ]
           }
         ]
       })
       setTimeout(function () {
         window.onresize = function () {
-          myChart.resize({width: window.innerWidth, height: window.innerHeight})
+          myChart.resize({
+            width: window.innerWidth,
+            height: window.innerHeight
+          })
         }
       }, 200)
     }
@@ -137,20 +207,90 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-/deep/.van-tabs--card>.van-tabs__wrap{
-    width: 5.20rem;
-    height: 50px!important;
-    margin: 0.28rem auto;
+.statistics_list {
+  position: relative;
+  margin: 20px;
+  display: flex;
+  justify-content: space-between;
+  // align-content: center;
 }
-/deep/.van-tabs__nav--card{
-     font-size: 36px !important;
-     height: 50px;
-     line-height: 40px;
+.statistics_name {
+  flex: 4;
+  margin: 0 10px;
 }
-/deep/.van-tabs__nav--card .van-tab{
-    line-height: 48px;
+.dot {
+  flex: 1;
+  position: absolute;
+  bottom: 10px;
+  left: -30px;
 }
-/deep/.van-tab{
-    font-size: 0.32rem;
+.dot div {
+  width: 10px;
+  height: 10px;
+  background: #3399ff;
+  border-radius: 50%;
+  margin-bottom: 25px;
+  left: 20px;
+}
+.dot div:nth-child(2) {
+  background: darkblue;
+}
+.dot div:last-child {
+  margin-bottom: 0px;
+  background: maroon;
+}
+.statistics_result {
+  flex: 4;
+  text-align: center;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+.SatisfactionSta {
+  //   width: 360px;
+  font-size: 0.34rem;
+}
+.hd {
+  //   width: 5.2rem;
+  height: 0.88rem;
+  //   margin: 0.28rem auto;
+  margin-left: 22%;
+  background: #ffffff;
+}
+.hd span {
+  width: 2.1rem;
+  height: 0.88rem;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  display: block;
+  float: left;
+  line-height: 48px;
+  cursor: pointer;
+}
+.hd span:last-child {
+  border-right: 1px solid #ccc;
+}
+.hd span.cur {
+  background: #3399ff;
+  color: #fff;
+}
+.bd {
+  border-top: 1px solid #ccc;
+  text-align: left;
+  padding: 20px;
+}
+.bd ul {
+  list-style: none;
+}
+.bd ul li {
+  line-height: 200%;
+}
+.answerNum{
+    border-top: #ccc 1px solid
+}
+.answerNum .answerNum_content{
+    padding-top: 0.50rem;
+    color: #999
 }
 </style>
