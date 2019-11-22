@@ -10,6 +10,7 @@ import remindLogDetail from '@/pages/remindLogDetail'
 import callLog from '@/pages/callLog'
 import SatisfactionSta from '@/pages/SatisfactionSta'
 import analyze from '@/pages/analyze'
+import spinsterhoodSat from '@/pages/spinsterhoodSat'
 
 const routes = [{
   path: '',
@@ -92,6 +93,13 @@ const routes = [{
     path: '/analyze',
     name: 'analyze',
     component: analyze,
+    meta: {
+      keepAlive: false
+    }
+  }, {
+    path: '/spinsterhoodSat',
+    name: 'spinsterhoodSat',
+    component: spinsterhoodSat,
     meta: {
       keepAlive: false
     }
