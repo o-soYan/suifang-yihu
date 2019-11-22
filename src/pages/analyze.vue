@@ -81,8 +81,7 @@
               </li>
             </ul>
           </div>
-            </div>
-
+        </div>
         </div>
       </template>
     </sideTab>
@@ -96,15 +95,7 @@ export default {
     return {
       value: '',
       tabDatas: ['基本信息统计', '随访统计'],
-      slected: 0,
-      analyzeDatas: [
-        {
-          name: '手术药流统计'
-        },
-        {
-          name: '未婚已婚统计'
-        }
-      ]
+      slected: 0
     }
   },
   components: {
@@ -113,9 +104,6 @@ export default {
   methods: {
     tabClick (index) {
       this.slected = index
-      let arr = []
-      arr.push(this.patientDatas[index])
-      this.selectedDatas = arr
     },
     onSearch () {},
     onCancel () {}
