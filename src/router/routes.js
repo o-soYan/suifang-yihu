@@ -1,5 +1,7 @@
 import app from '@/App.vue'
-import home from '@/pages/home'
+import home from '@/pages/home/home'
+// import Blank from '@/pages/Blank'
+import mainhome from '@/pages/home/mainhome'
 import patientManage from '@/pages/patientManage'
 import patientInfo from '@/pages/patientInfo'
 import remindLog from '@/pages/remindLog'
@@ -13,15 +15,26 @@ import analyze from '@/pages/analyze'
 
 const routes = [{
   path: '',
-  redirect: '/home'
+  redirect: '/mainhome'
 }, {
   path: '',
   component: app,
-  name: 'app',
-  children: [{
-    path: '/home',
-    name: 'home',
-    component: home,
+  // name: 'app',
+  children: [{ // 首页
+    path: '',
+    // name: 'home',
+    component: home
+    // children: [
+    //   { // 热卖
+    //     path: '/home/mainhome',
+    //     name: 'mainhome',
+    //     component: mainhome
+    //   }
+    // ]
+  }, {
+    path: '/mainhome',
+    name: 'mainhome',
+    component: mainhome,
     meta: {
       keepAlive: false
     }
