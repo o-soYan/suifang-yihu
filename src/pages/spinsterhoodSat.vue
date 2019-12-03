@@ -1,6 +1,6 @@
 <template>
 <div class="statistics">
-    <div>手术药流统计</div>
+    <div>未婚已婚统计</div>
 <div id="main" :style="{width:windowWidth + 'px', height:windowWidth + 'px'}">
 </div>
 </div>
