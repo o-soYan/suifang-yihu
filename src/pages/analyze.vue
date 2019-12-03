@@ -18,70 +18,70 @@
     <sideTab :datas="tabDatas" @tabClick="tabClick">
       <template v-for="(item, index) in tabDatas">
         <div class="tabItem" :key="index" v-if="slected === index">
-            <div class="tabContent">
-<div v-if="index === 0">
-            <ul>
-              <li>
-                <router-link to="/statistics">手术药流统计</router-link>
-              </li>
-              <li>
-                <router-link to="/spinsterhoodSat">未婚已婚统计</router-link>
-              </li>
-              <li>
-                <router-link to="/">流产次数统计</router-link>
-              </li>
-              <li>
-                <router-link to="/">避孕方案统计</router-link>
-              </li>
-              <li>
-                <router-link to="/">首月随访统计</router-link>
-              </li>
-               <li>
-                <router-link to="/">一个月随访统计</router-link>
-              </li>
-               <li>
-                <router-link to="/">三个月随访统计</router-link>
-              </li>
-               <li>
-                <router-link to="/">六个月随访统计</router-link>
-              </li>
-              <li>
-                <router-link to="/">十二个月随访统计</router-link>
-              </li>
-            </ul>
+          <div class="tabContent">
+            <div v-if="index === 0">
+              <ul>
+                <li>
+                  <router-link to="/statistics">手术药流统计</router-link>
+                </li>
+                <li>
+                  <router-link to="/spinsterhoodSat">未婚已婚统计</router-link>
+                </li>
+                <li>
+                  <router-link to="/">流产次数统计</router-link>
+                </li>
+                <li>
+                  <router-link to="/">避孕方案统计</router-link>
+                </li>
+                <li>
+                  <router-link to="/">首月随访统计</router-link>
+                </li>
+                <li>
+                  <router-link to="/">一个月随访统计</router-link>
+                </li>
+                <li>
+                  <router-link to="/">三个月随访统计</router-link>
+                </li>
+                <li>
+                  <router-link to="/">六个月随访统计</router-link>
+                </li>
+                <li>
+                  <router-link to="/">十二个月随访统计</router-link>
+                </li>
+              </ul>
+            </div>
+            <div v-if="index === 1">
+              <ul>
+                <li>
+                  <router-link to="/">统计</router-link>
+                </li>
+                <li>
+                  <router-link to="/">统计</router-link>
+                </li>
+                <li>
+                  <router-link to="/">流产</router-link>
+                </li>
+                <li>
+                  <router-link to="/">避孕</router-link>
+                </li>
+                <li>
+                  <router-link to="/">首月随访统计</router-link>
+                </li>
+                <li>
+                  <router-link to="/">一个月随访统计</router-link>
+                </li>
+                <li>
+                  <router-link to="/">三个月随访统计</router-link>
+                </li>
+                <li>
+                  <router-link to="/">六个统计</router-link>
+                </li>
+                <li>
+                  <router-link to="/">十统计</router-link>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div v-if="index === 1">
-            <ul>
-              <li>
-                <router-link to="/">统计</router-link>
-              </li>
-              <li>
-                <router-link to="/">统计</router-link>
-              </li>
-              <li>
-                <router-link to="/">流产</router-link>
-              </li>
-              <li>
-                <router-link to="/">避孕</router-link>
-              </li>
-              <li>
-                <router-link to="/">首月随访统计</router-link>
-              </li>
-               <li>
-                <router-link to="/">一个月随访统计</router-link>
-              </li>
-               <li>
-                <router-link to="/">三个月随访统计</router-link>
-              </li>
-               <li>
-                <router-link to="/">六个统计</router-link>
-              </li>
-              <li>
-                <router-link to="/">十统计</router-link>
-              </li>
-            </ul>
-          </div>
-        </div>
         </div>
       </template>
     </sideTab>
@@ -129,11 +129,11 @@ export default {
   font-size: 0.32rem;
   line-height: 0.68rem;
 }
-.tabContent li{
-    padding:0.18rem 0;
-    font-size: 0.32rem
+.tabContent li {
+  padding: 0.18rem 0;
+  font-size: 0.32rem;
 }
-.tabContent li a{
-   color: #333333
+.tabContent li a {
+  color: #333333;
 }
 </style>

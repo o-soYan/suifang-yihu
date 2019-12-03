@@ -1,99 +1,124 @@
 <template>
   <div class="home">
-      <div class="swipe">
- <van-swipe :autoplay="3000">
-      <van-swipe-item v-for="(image, index) in images" :key="index">
-        <img :src="image" />
-      </van-swipe-item>
-    </van-swipe>
-      </div>
+    <div class="swipe">
+      <van-swipe :autoplay="3000">
+        <van-swipe-item v-for="(image, index) in images" :key="index">
+          <img :src="image" />
+        </van-swipe-item>
+      </van-swipe>
+    </div>
 
-    <van-tabs type="card" color="#87CEFA">
+    <van-tabs color="#0BB9BF">
       <van-tab title="发布中">
-        <div class="tab_content">
-          <div class="tab_name">满意度调查</div>
-          <div class="tab_progress">
-            <van-progress :percentage="100" stroke-width="26" color="#f2826a" />
+        <div class="tab_content color_green">
+          <div class="content_left">
+            <div class="tab_name">满意度调查</div>
+            <div class="tab_time_top color_one">PAC</div>
+            <div class="tab_time">
+              2019/10/22
+            </div>
           </div>
-          <div class="tab_time">
-            <span class="tab_time_top">PAC</span>
-            2019/10/22
-          </div>
-        </div>
-        <div class="tab_content">
-          <div class="tab_name">用药提醒</div>
-          <div class="tab_progress">
-            <van-progress :percentage="70" stroke-width="26" color="#008000" />
-          </div>
-          <div class="tab_time">
-            <span class="tab_time_top2 tab_time_top">流感</span>
-            2019/10/22
+          <div class="content_right">
+            <p class="percentum">40%</p>
+            <p class="progress">完成度</p>
           </div>
         </div>
-        <div class="tab_content">
-          <div class="tab_name">复诊提醒</div>
-          <div class="tab_progress">
-            <van-progress :percentage="90" stroke-width="26" color="#FF8C00" />
+        <div class="tab_content blue">
+          <div class="content_left">
+            <div class="tab_name">用药提醒</div>
+            <div class="tab_time_top color_blue">流感</div>
+            <div class="tab_time">
+              2019/10/22
+            </div>
           </div>
-          <div class="tab_time">
-            <span class="tab_time_top3 tab_time_top" >脂肪肝</span>
-            2019/10/22
-          </div>
-        </div>
-        <div class="tab_content">
-          <div class="tab_name">满意度调查</div>
-          <div class="tab_progress">
-            <van-progress :percentage="20" stroke-width="26" color="#f2826a" />
-          </div>
-          <div class="tab_time">
-            <span class="tab_time_top4 tab_time_top">心脏病</span>
-            2019/10/22
+          <div class="content_right">
+            <p class="percentum">40%</p>
+            <p class="progress">完成度</p>
           </div>
         </div>
-      </van-tab>
-      <van-tab title="已结束"
-        >  <div class="tab_content">
-          <div class="tab_name">满意度调查</div>
-          <div class="tab_progress">
-            <van-progress :percentage="20" stroke-width="26" color="#f2826a" />
+        <div class="tab_content orange">
+          <div class="content_left">
+            <div class="tab_name">复诊提醒</div>
+            <div class="tab_time_top color_orange">脂肪肝</div>
+            <div class="tab_time">
+              2019/10/22
+            </div>
           </div>
-          <div class="tab_time">
-            <span class="tab_time_top">PAC</span>
-            2019/10/22
-          </div>
-        </div>
-        <div class="tab_content">
-          <div class="tab_name">用药提醒</div>
-          <div class="tab_progress">
-            <van-progress :percentage="100" stroke-width="26" color="#008000" />
-          </div>
-          <div class="tab_time">
-            <span class="tab_time_top2 tab_time_top">流感</span>
-            2019/10/22
-          </div>
-        </div>
-        <div class="tab_content">
-          <div class="tab_name">复诊提醒</div>
-          <div class="tab_progress">
-            <van-progress :percentage="80" stroke-width="26" color="#FF8C00" />
-          </div>
-          <div class="tab_time">
-            <span class="tab_time_top3 tab_time_top" >脂肪肝</span>
-            2019/10/22
-          </div>
-        </div>
-        <div class="tab_content">
-          <div class="tab_name">满意度调查</div>
-          <div class="tab_progress">
-            <van-progress :percentage="50" stroke-width="26" color="#f2826a" />
-          </div>
-          <div class="tab_time">
-            <span class="tab_time_top4 tab_time_top">心脏病</span>
-            2019/10/22
+          <div class="content_right">
+            <p class="percentum">40%</p>
+            <p class="progress">完成度</p>
           </div>
         </div>
       </van-tab>
-      <van-tab title="异常患者">内容 3</van-tab>
+      <van-tab title="已结束">
+        <div class="tab_content color_green">
+          <div class="content_left">
+            <div class="tab_name">满意度调查</div>
+            <div class="tab_time_top color_one">PAC</div>
+            <div class="tab_time">
+              2019/10/22
+            </div>
+          </div>
+          <div class="content_right">
+            <p class="percentum">40%</p>
+            <p class="progress">完成度</p>
+          </div>
+        </div>
+        <div class="tab_content blue">
+          <div class="content_left">
+            <div class="tab_name">用药提醒</div>
+            <div class="tab_time_top color_blue">流感</div>
+            <div class="tab_time">
+              2019/10/22
+            </div>
+          </div>
+          <div class="content_right">
+            <p class="percentum">40%</p>
+            <p class="progress">完成度</p>
+          </div>
+        </div>
+        <div class="tab_content orange">
+          <div class="content_left">
+            <div class="tab_name">复诊提醒</div>
+            <div class="tab_time_top color_orange">脂肪肝</div>
+            <div class="tab_time">
+              2019/10/22
+            </div>
+          </div>
+          <div class="content_right">
+            <p class="percentum">40%</p>
+            <p class="progress">完成度</p>
+          </div>
+        </div>
+      </van-tab>
+      <van-tab title="异常患者">
+        <div class="abnormal_content">
+          <div class="content_top">
+            <div class="userLogo">
+              <img src="../../assets/home.png" alt="" />
+            </div>
+            <div class="userInfo">
+              <div class="userNa">
+                <span class="userName">张小光</span>
+                <span>男</span>
+                <span>24岁</span>
+              </div>
+              <div class="userRecord">
+                <span>随访3</span>
+                <span>提醒1</span>
+                <span>电话回访5</span>
+              </div>
+            </div>
+
+            <div class="content_right">
+              40
+            </div>
+          </div>
+          <div class="content_bottom">
+            出院诊断: 病毒性高烧
+          </div>
+        </div>
+      </van-tab>
     </van-tabs>
   </div>
 </template>
@@ -112,8 +137,48 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.swipe{
-    margin-bottom: 0.36rem
+.content_top {
+  padding: 0.9em;
+  display: flex;
+//   justify-content: space-between;
+  align-items: center
+}
+.content_top .userLogo {
+  flex: 1;
+}
+.content_top .userInfo {
+  flex: 4;
+  color: #333333;
+  font-size: 0.26rem
+}
+.content_top .userInfo .userName{
+color: #121212;
+font-size: 0.32rem;
+font-weight: 600;
+margin-right: 0.14rem
+}
+.content_top .userRecord {
+    margin-top: 0.3rem;
+    color: #979797;
+    font-size: 0.24rem;
+}
+.content_top .content_right {
+  color: #FF7D00;
+  background: #FFF6EE;
+  padding:0.09rem 0.2rem;
+  border-radius: 36%
+}
+.content_bottom {
+  border-top: #f6f6f6 0.02rem solid;
+  padding: 0.9em;
+  color: #979797;
+  font-size: 0.26rem;
+}
+/deep/.van-tab {
+  font-size: 0.3rem;
+}
+.swipe {
+  margin-bottom: 0.36rem;
 }
 /deep/.van-tabs__nav--card {
   font-size: 50px;
@@ -123,14 +188,16 @@ export default {
   font-size: 0.32rem;
   background: transparent !important;
 }
-.tab_progress {
-  position: absolute;
-  width: 40%;
-  left: 30%;
+.abnormal_content {
+  margin: 0.24rem 0.2rem;
+  box-shadow: 0 0 10px #d3d3d3;
+  border: 1px solid #dedede;
+  border-radius: 0.12rem;
+  text-align: left;
 }
 .tab_content {
-  margin: 0.24rem 0.12rem;
-  padding: 0.22em;
+  margin: 0.24rem 0.2rem;
+  padding: 0.9em;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -138,33 +205,64 @@ export default {
   border: 1px solid #dedede;
   border-radius: 0.12rem;
 }
+.color_green {
+  border-left: #0bb9bf 0.1rem solid;
+}
+.blue {
+  border-left: #2eadff 0.1rem solid;
+}
+.color_blue {
+  color: #2eadff !important;
+  background: #e7f5ff !important;
+}
+.orange {
+  border-left: #ffc92e 0.1rem solid;
+}
+.color_orange {
+  color: #ffc92e !important;
+  background: #fff7de !important;
+}
+.tab_content .content_left {
+}
+.tab_content .content_right {
+  margin-right: 0.3rem;
+}
+.tab_content .content_right .percentum {
+  color: #ff7d00;
+  font-weight: 550;
+  font-size: 0.54rem;
+  padding-bottom: 0.16rem;
+}
+.tab_content .content_right .progress {
+  color: #979797;
+  font-size: 0.3rem;
+}
+/deep/.van-tab--active {
+  color: #333333;
+  font-size: 0.34rem;
+  font-weight: 600;
+}
 .tab_time {
-  width: 30%;
-  font-size: 0.30rem;
+  text-align: left;
+  font-size: 0.26rem;
+  color: #c4c4c4;
 }
 .tab_name {
-  // flex: 2
-  width: 30%;
+  color: #333333;
+  font-size: 0.34rem;
+  font-weight: 550;
+  padding-bottom: 0.2rem;
 }
 .tab_time_top {
   font-size: 0.3rem;
-  width: 50%;
+  width: 68%;
   text-align: center;
-  margin: 0 auto;
-  display: block;
-  background: tomato;
-  color: #ffffff;
-  padding: 0.06rem 0.28rem;
-  border-radius: 0.8em;
+  background: #e3f5f6;
+  color: #0bb9bf;
+  padding: 0.08rem 0.1rem;
   margin-bottom: 0.08rem;
 }
-.tab_time_top2 {
-  background: rgb(54, 172, 30);
-}
-.tab_time_top3 {
-  background: rgb(64, 44, 121);
-}
-.tab_time_top4 {
-  background: rgb(75, 124, 231);
+.color_one {
+  width: 46% !important;
 }
 </style>
