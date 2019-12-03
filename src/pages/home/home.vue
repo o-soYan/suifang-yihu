@@ -3,14 +3,14 @@
 <template>
   <div class="main-home">
     <!-- 标题栏 -->
+     <router-view></router-view>
     <!-- 顶部tab -->
     <Tab></Tab>
-    <!-- <router-view></router-view> -->
   </div>
 </template>
 
 <script>
-import Tab from '@/components/Tab'
+import Tab from '@/components/tab'
 
 export default {
   name: 'Home',
@@ -20,16 +20,15 @@ export default {
   props: {},
   data () {
     return {
-      placeholder: '请输入内容' // 搜索框提示
+      tabarActive: 0
     }
   },
   computed: {},
   watch: {},
   created () {},
   methods: {
-    // 右侧按钮
-    handleIcon () {
-      console.log('消息中心')
+    redirects (url) {
+      this.$router.push(url)
     }
   }
 }
