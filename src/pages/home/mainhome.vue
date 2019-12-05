@@ -93,36 +93,38 @@
       </van-tab>
       <van-tab title="异常患者">
         <div class="abnormal_content">
-          <div class="content_top">
-            <div class="userLogo">
-              <img src="../../assets/home.png" alt="" />
-            </div>
-            <div class="userInfo">
-              <div class="userNa">
-                <span class="userName">张小光</span>
-                <span>男</span>
-                <span>24岁</span>
-              </div>
-              <div class="userRecord">
-                <span>随访3</span>
-                <span>提醒1</span>
-                <span>电话回访5</span>
-              </div>
-            </div>
+<!--          <div class="content_top">-->
+<!--            <div class="userLogo">-->
+<!--              <img src="../../assets/home.png" alt="" />-->
+<!--            </div>-->
+<!--            <div class="userInfo">-->
+<!--              <div class="userNa">-->
+<!--                <span class="userName">张小光</span>-->
+<!--                <span>男</span>-->
+<!--                <span>24岁</span>-->
+<!--              </div>-->
+<!--              <div class="userRecord">-->
+<!--                <span>随访3</span>-->
+<!--                <span>提醒1</span>-->
+<!--                <span>电话回访5</span>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="content_right">
-              40
-            </div>
-          </div>
-          <div class="content_bottom">
-            出院诊断: 病毒性高烧
-          </div>
+<!--            <div class="content_right">-->
+<!--              40-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="content_bottom">-->
+<!--            出院诊断: 病毒性高烧-->
+<!--          </div>-->
+          <patientItem :patientDatas='patientDatas'></patientItem>
         </div>
       </van-tab>
     </van-tabs>
   </div>
 </template>
 <script>
+import patientItem from '@/components/patientItem'
 export default {
   data () {
     return {
@@ -130,8 +132,24 @@ export default {
         'http://imgsa.baidu.com/exp/w=500/sign=b26e62947d1ed21b79c92ee59d6fddae/aec379310a55b319de3e711343a98226cefc1794.jpg',
         'http://img5.imgtn.bdimg.com/it/u=2287440564,27896561&fm=26&gp=0.jpg',
         'http://imgsa.baidu.com/exp/w=500/sign=9e546a1dd11373f0f53f6f9f940f4b8b/8601a18b87d6277fd138c05e28381f30e924fcaa.jpg'
-      ]
+      ],
+      patientDatas: [{
+        name: '方宇',
+        sex: '女',
+        yearsold: '22',
+        pics: '感冒',
+        topic: '10'
+      }, {
+        name: '方宇',
+        sex: '女',
+        yearsold: '225',
+        pics: '感冒le',
+        topic: '2'
+      }]
     }
+  },
+  components: {
+    patientItem
   }
 }
 </script>
@@ -190,9 +208,6 @@ margin-right: 0.14rem
 }
 .abnormal_content {
   margin: 0.24rem 0.2rem;
-  box-shadow: 0 0 10px #d3d3d3;
-  border: 1px solid #dedede;
-  border-radius: 0.12rem;
   text-align: left;
 }
 .tab_content {

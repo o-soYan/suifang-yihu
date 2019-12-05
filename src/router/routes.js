@@ -4,6 +4,7 @@ import mainhome from '@/pages/home/mainhome'
 import patientManage from '@/pages/home/patientManage'
 import patientInfo from '@/pages/patientInfo'
 import remindLog from '@/pages/remindLog'
+import followUpLog from '@/pages/followUpLog'
 import DoneQuesDetail from '@/pages/DoneQuesDetail'
 import noDoQuesDetail from '@/pages/noDoQuesDetail'
 import statistics from '@/pages/statistics'
@@ -53,6 +54,13 @@ const routes = [{
   path: '/remindLog',
   name: 'remindLog',
   component: remindLog,
+  meta: {
+    keepAlive: false
+  }
+}, {
+  path: '/followUpLog',
+  name: 'followUpLog',
+  component: followUpLog,
   meta: {
     keepAlive: false
   }

@@ -1,11 +1,5 @@
 <template>
   <div class="detailContainer">
-    <Header
-      :isTitle="true"
-      title="答卷详情"
-      :isScan="false"
-      :isBack="true">
-    </Header>
     <div class="content">
       <div class="item">
         <div class="quesTitle">
@@ -28,28 +22,38 @@
 </template>
 
 <script>
-import Header from '@/components/header'
 export default {
-  name: 'detail',
-  components: {
-    Header
-  }
+  name: 'detail'
 }
 </script>
 
 <style lang="less" scoped>
 .detailContainer {
   .content {
-    background: #e5e5e5;
-    border-top: 1px solid #e5e5e5;
+    margin: 0.3rem;
+    background:rgba(255,255,255,1);
+    box-shadow:0px 0px 12px 0px rgba(238,238,238,1);
   }
   .item {
-    padding: 0.2rem;
-    margin-top: 0.06rem;
-    line-height: 2;
+    padding: 0.4rem;
     font-size: 0.32rem;
     text-align: left;
-    background: #fff;
+    height:2rem;
+    background:rgba(255,255,255,1);
+    border-bottom: 1px solid #f9f9f9;
+    box-sizing: border-box;
+    .quesTitle {
+      font-size:0.32rem;
+      font-weight:600;
+      color:rgba(18,18,18,1);
+      line-height:0.44rem;
+    }
+    .quesAns {
+      font-size:0.28rem;
+      color:rgba(11,185,191,1);
+      line-height:0.4rem;
+      margin-top: 0.36rem;
+    }
   }
 }
 </style>

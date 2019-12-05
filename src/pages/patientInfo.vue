@@ -1,32 +1,5 @@
 <template>
   <div class="patientInfoContainer">
-<!--    <div class="patientBaseInfo">-->
-<!--      <div class="headLogo">-->
-<!--        <img src="@/assets/logo.png" alt="">-->
-<!--      </div>-->
-<!--      <div class="userInfo">-->
-<!--        <p class="userNameSex">-->
-<!--          <span class="name">方宇</span>-->
-<!--          <span class="sex">女</span>-->
-<!--          <span class="old">30岁</span>-->
-<!--        </p>-->
-<!--        <p>-->
-<!--          <span>生日：1999-01-01</span>-->
-<!--        </p>-->
-<!--        <p>-->
-<!--          <span>电话：15562918452</span>-->
-<!--        </p>-->
-<!--        <p>-->
-<!--          <span>地址：广东省广州市</span>-->
-<!--        </p>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="patientSituation">-->
-<!--      <div class="cell">-->
-<!--        <div class="title">院区</div>-->
-<!--        <div class="answer">总院</div>-->
-<!--      </div>-->
-<!--    </div>-->
     <div class="patientBaseInfo">
       <div class="baseInfo">
         <div class="nameInfo">
@@ -71,6 +44,18 @@
       <div class="infoItem">
         <div class="itemTitle">院区</div>
         <div class="itemResult">总院</div>
+      </div>
+      <div class="infoItem">
+        <div class="itemTitle">文化程度</div>
+        <div class="itemResult">大学本科</div>
+      </div>
+      <div class="infoItem">
+        <div class="itemTitle">患者职业</div>
+        <div class="itemResult">-</div>
+      </div>
+      <div class="infoItem">
+        <div class="itemTitle">患者户籍</div>
+        <div class="itemResult">广东省广州市</div>
       </div>
     </div>
   </div>
@@ -119,6 +104,10 @@ export default {
       .patientLogo {
         width: 1.22rem;
         height: 1.22rem;
+        border-radius: 50%;
+        background: #fff;
+        padding: 2px;
+        box-sizing: border-box;
         img {
           width: 100%;
           height: 100%;
@@ -164,6 +153,7 @@ export default {
           color: #333333;
           font-size: 0.36rem;
           line-height: 0.36rem;
+          font-weight: 600;
         }
         .title {
           color: #979797;
@@ -182,6 +172,23 @@ export default {
       color: #121212;
       font-size: 0.38rem;
       line-height: 0.52rem;
+      font-weight: 600;
+      padding: 0.16rem 0.4rem 0.34rem;
+      border-bottom: 1px solid #f9f9f9;
+    }
+    .infoItem {
+      padding: 0.28rem 0.4rem;
+      line-height:0.42rem;
+      font-size: 0.3rem;
+      border-bottom: 1px solid #f9f9f9;
+      .itemTitle {
+        color:rgba(102,102,102,1);
+        min-width: 1.88rem;
+        margin-right: 0.52rem;
+      }
+      .itemResult {
+        color: #979797;
+      }
     }
   }
 }
