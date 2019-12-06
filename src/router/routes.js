@@ -36,13 +36,20 @@ const routes = [{
       keepAlive: false
     }
   }, {
-    path: '/statistics',
-    name: 'statistics',
-    component: statistics,
+    path: '/analyze',
+    name: 'analyze',
+    component: analyze,
     meta: {
       keepAlive: false
     }
   }]
+}, {
+  path: '/statistics',
+  name: 'statistics',
+  component: statistics,
+  meta: {
+    keepAlive: false
+  }
 }, {
   path: '/patientInfo',
   name: 'patientInfo',
@@ -96,13 +103,6 @@ const routes = [{
   path: '/SatisfactionSta',
   name: 'SatisfactionSta',
   component: SatisfactionSta,
-  meta: {
-    keepAlive: false
-  }
-}, {
-  path: '/analyze',
-  name: 'analyze',
-  component: analyze,
   meta: {
     keepAlive: false
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="SatisfactionSta">
+  <div class="SatisfactionSta" :style="{height:windowHeight + 'px'}">
     <div class="tabBox">
       <p @click="activeItem = 0" :class="activeItem === 0 ? 'active' : ''">
         <span>统计报表</span>
@@ -11,10 +11,32 @@
     </div>
     <div class="bd">
       <div v-show="activeItem === 0">
-<!--        题目统计-->
-        <div class="questionStatistics">
-          <div class="questionTitle">Q3: 您认为满意度调查重要吗?</div>
-          <div id="sati" class="satiBar"></div>
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="questionStatistics">
+                <div class="questionTitle">Q1: 您认为满意度调查重要吗?</div>
+                <div id="sati" class="satiBar"></div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="questionStatistics">
+                <div class="questionTitle">Q2: 您认为满意度调查重要吗?</div>
+                <div id="sati1" class="satiBar"></div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="questionStatistics">
+                <div class="questionTitle">Q3: 您认为满意度调查重要吗?</div>
+                <div id="sati2" class="satiBar"></div>
+              </div>
+            </div>
+<!--            <div class="swiper-slide"><img src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1575612949&di=cdfc106defb569b34df55d9e4186d22c&src=http://img8.zol.com.cn/bbs/upload/19571/19570481.jpg" /></div>-->
+<!--            <div class="swiper-slide"><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575623027636&di=74f5c720c1eef19169ced5d4b66e39f9&imgtype=0&src=http%3A%2F%2Fimg.aiimg.com%2Fuploads%2Fallimg%2F140315%2F263915-140315194332.jpg" /></div>-->
+<!--            <div class="swiper-slide"><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575623027636&di=0e75d56e789251b86a33d7f32b8d7412&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F121126%2F240453-1211261I35086.jpg" /></div>-->
+          </div>
+          <!-- 如果需要分页器 -->
+          <div class="swiper-pagination"></div>
         </div>
       </div>
       <div v-show="activeItem === 1">
@@ -39,6 +61,8 @@
   </div>
 </template>
 <script>
+import Swiper from 'swiper'
+import 'swiper/css/swiper.css'
 // 引入 ECharts 主模块
 var echarts = require('echarts')
 // 引入柱状图
@@ -69,8 +93,8 @@ export default {
     }
   },
   created () {
-    this.windowWidth = window.innerWidth
-    console.log(window.innerWidth)
+    this.windowHeight = window.innerHeight
+    console.log(window.innerHeight)
   },
   methods: {
     getEchartsa () {
@@ -87,12 +111,12 @@ export default {
         // //   x: 'left',
         // //   data: ['直达', '营销广告', '搜索引擎', '邮件营销', '联盟广告', '视频广告', '百度', '谷歌', '必应', '其他']
         // },
-        grid: {
-          top: '0',
-          left: '0',
-          right: '0',
-          bottom: '0'
-        },
+        // grid: {
+        //   top: '0',
+        //   left: '0',
+        //   right: '0',
+        //   bottom: '0'
+        // },
         graphic: {
           type: 'group',
           children: [
@@ -170,7 +194,26 @@ export default {
     }
   },
   mounted () {
-    this.getEchartsa()
+    // this.getEchartsa()
+    // eslint-disable-next-line no-new
+    new Swiper('.swiper-container', {
+      direction: 'horizontal',
+      loop: true,
+      autoplay: 5000,
+      slidesPerView: 'auto',
+      centeredSlides: true,
+      spaceBetween: 10,
+      // 如果需要分页器
+      pagination: {
+        el: '.swiper-pagination',
+        type: 'fraction',
+        renderFraction: function (currentClass, totalClass) {
+          return '<span class="' + currentClass + '"></span>' +
+            '/' +
+            '<span class="' + totalClass + '"></span>'
+        }
+      }
+    })
   }
 }
 </script>
@@ -222,6 +265,9 @@ export default {
   align-items: center;
   height: 100%;
 }
+  .personnel_content {
+    padding: 0 0.3rem;
+  }
 .personnel_content .personnel_list{
   height:1.52rem;
   background:rgba(255,255,255,1);
@@ -352,28 +398,44 @@ text-decoration: underline
 }
 .bd {
   text-align: left;
-  padding: 0 0.3rem 0.3rem;
+  padding: 0 0 0.3rem;
+  .swiper-container {
+    width: 100%;
+    height: 9.94rem;
+    overflow: visible!important;
+  }
+  .swiper-slide{
+    width: 85%;
+  }
+  /deep/.swiper-pagination-total {
+    color: #999999;
+  }
+  /deep/.swiper-pagination-current {
+    color:rgba(11,185,191,1);
+  }
   .questionStatistics {
-    width: 5.9rem;
+    /*width: 5.9rem !important;*/
     height:9.94rem;
+    margin: 0 auto;
     background:rgba(255,255,255,1);
     box-shadow:0px 4px 20px 0px rgba(231,231,231,1);
     border-radius:6px;
     text-align: center;
     padding: 0.46rem 0;
     box-sizing: border-box;
+    border: 1px solid #d3d3d3;
     .questionTitle {
       font-size:0.32rem;
       font-weight:600;
       color:rgba(18,18,18,1);
       line-height:0.44rem;
       margin-top: 0.34rem;
-      margin-bottom: 1.18rem;
+      /*margin-bottom: 1.18rem;*/
       padding: 0 0.46rem;
     }
     .satiBar {
       width: 100%;
-      height: 4.46rem;
+      height: 3.7rem;
       margin: 0 auto;
     }
   }

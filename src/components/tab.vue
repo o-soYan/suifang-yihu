@@ -32,7 +32,7 @@ export default {
         title: '统计分析',
         icon: require('../assets/tabBar/bar-gray.png'),
         colorIcon: require('../assets/tabBar/bar-color.png'),
-        path: '/statistics'
+        path: '/analyze'
       }],
       isFixed: true
     }
