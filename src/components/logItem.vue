@@ -1,6 +1,6 @@
 <template>
   <div class='logItemContainer'>
-    <div class="item" v-for="(item, index) in logDatas" :key="index">
+    <div class="item" v-for="(item, index) in logDatas" :key="index" @click="clickLogItem">
       <div class="itemContent">
         <p class="name">{{item.name}}</p>
         <p class="time">随访日期：{{item.time}}</p>
@@ -20,10 +20,22 @@ export default {
     },
     showStatus: {
       type: Boolean
+    },
+    logType: {
+      type: String
     }
   },
   data () {
     return {}
+  },
+  methods: {
+    clickLogItem () {
+      if (this.logType === 'remind') {
+        this.$router.push({name: 'remindLogDetail'})
+      } else {
+        this.$router.push({name: 'DoneQuesDetail'})
+      }
+    }
   }
 }
 </script>

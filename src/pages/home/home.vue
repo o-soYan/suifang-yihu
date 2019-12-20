@@ -38,5 +38,6 @@ export default {
   .main-home {
     width: 100%;
     height: 100%;
+    margin-bottom: 1.2rem;
   }
 </style>

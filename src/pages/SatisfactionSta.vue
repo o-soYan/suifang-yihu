@@ -31,17 +31,14 @@
                 <div id="sati2" class="satiBar"></div>
               </div>
             </div>
-<!--            <div class="swiper-slide"><img src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1575612949&di=cdfc106defb569b34df55d9e4186d22c&src=http://img8.zol.com.cn/bbs/upload/19571/19570481.jpg" /></div>-->
-<!--            <div class="swiper-slide"><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575623027636&di=74f5c720c1eef19169ced5d4b66e39f9&imgtype=0&src=http%3A%2F%2Fimg.aiimg.com%2Fuploads%2Fallimg%2F140315%2F263915-140315194332.jpg" /></div>-->
-<!--            <div class="swiper-slide"><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575623027636&di=0e75d56e789251b86a33d7f32b8d7412&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F121126%2F240453-1211261I35086.jpg" /></div>-->
           </div>
-          <!-- 如果需要分页器 -->
-          <div class="swiper-pagination"></div>
         </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
       </div>
       <div v-show="activeItem === 1">
         <div class="personnel_content">
-         <div class="personnel_list" v-for="(item,index) in personnel" :key="index">
+         <div class="personnel_list" v-for="(item,index) in personnel" :key="index" @click="clickPerson">
           <div class="list_content">
             <div class="userInfo">
               <div class="user_logo">
@@ -106,17 +103,6 @@ export default {
           trigger: 'item',
           formatter: '{a} <br/>{b}: {c} ({d}%)'
         },
-        // legend: {
-        // //   orient: 'vertical',
-        // //   x: 'left',
-        // //   data: ['直达', '营销广告', '搜索引擎', '邮件营销', '联盟广告', '视频广告', '百度', '谷歌', '必应', '其他']
-        // },
-        // grid: {
-        //   top: '0',
-        //   left: '0',
-        //   right: '0',
-        //   bottom: '0'
-        // },
         graphic: {
           type: 'group',
           children: [
@@ -125,7 +111,7 @@ export default {
               id: 'text1',
               top: '50px',
               style: {
-                text: '共一人',
+                text: '共1人',
                 fill: '#333',
                 font: 'normal 0.3rem Microsoft YaHei',
                 textAlign: 'center'
@@ -151,25 +137,7 @@ export default {
           {
             name: '访问来源',
             type: 'pie',
-            selectedMode: 'single',
-            hoverAnimation: false, // 鼠标悬浮是否有区域弹出动画，false:无  true:有
-            radius: [0, '30%'],
-            label: {
-              normal: {
-                position: 'inner'
-              }
-            },
-            labelLine: {
-              normal: {
-                show: false
-              }
-            },
-            data: []
-          },
-          {
-            name: '访问来源',
-            type: 'pie',
-            radius: ['33%', '55%'],
+            radius: ['53%', '85%'],
             label: {
               show: false
             },
@@ -185,20 +153,20 @@ export default {
       })
       setTimeout(function () {
         window.onresize = function () {
-          myChart.resize({
-            width: window.innerWidth,
-            height: window.innerHeight
-          })
+          myChart.resize()
         }
       }, 200)
+    },
+    clickPerson () {
+      this.$router.push({name: 'DoneQuesDetail'})
     }
   },
   mounted () {
-    // this.getEchartsa()
+    this.getEchartsa()
     // eslint-disable-next-line no-new
     new Swiper('.swiper-container', {
       direction: 'horizontal',
-      loop: true,
+      loop: false,
       autoplay: 5000,
       slidesPerView: 'auto',
       centeredSlides: true,
@@ -218,7 +186,9 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
+.SatisfactionSta {
+  overflow: hidden;
+}
   .tabBox {
     width:6.9rem;
     margin: 0.3rem auto;
@@ -398,11 +368,12 @@ text-decoration: underline
 }
 .bd {
   text-align: left;
-  padding: 0 0 0.3rem;
+  padding: 0 0;
   .swiper-container {
     width: 100%;
     height: 9.94rem;
-    overflow: visible!important;
+    /*padding-bottom: 66px;*/
+    /*overflow: visible!important;*/
   }
   .swiper-slide{
     width: 85%;
@@ -418,7 +389,7 @@ text-decoration: underline
     height:9.94rem;
     margin: 0 auto;
     background:rgba(255,255,255,1);
-    box-shadow:0px 4px 20px 0px rgba(231,231,231,1);
+    box-shadow:0px 4px 10px 0px rgba(231,231,231,1);
     border-radius:6px;
     text-align: center;
     padding: 0.46rem 0;
@@ -434,9 +405,14 @@ text-decoration: underline
       padding: 0 0.46rem;
     }
     .satiBar {
-      width: 100%;
-      height: 3.7rem;
-      margin: 0 auto;
+      min-width: 254px;
+      min-height: 225px;
+      max-width: 80%;
+      max-height: 50%;
+      margin: 0.6rem auto 0;
+      div {
+        height: 100% !important;
+      }
     }
   }
 }

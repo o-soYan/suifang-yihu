@@ -11,7 +11,7 @@
     </div>
     <div class="tabContent">
       <van-search placeholder="请输入搜索关键词" />
-      <logItem :logDatas="logoData" :showStatus="false"></logItem>
+      <logItem :logType="'remind'" :logDatas="logoData" :showStatus="false"></logItem>
     </div>
   </div>
 </template>

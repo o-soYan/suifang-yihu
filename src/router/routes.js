@@ -1,6 +1,6 @@
 // import app from '@/App.vue'
 import home from '@/pages/home/home'
-import mainhome from '@/pages/home/mainhome'
+import mainHome from '@/pages/home/mainHome'
 import patientManage from '@/pages/home/patientManage'
 import patientInfo from '@/pages/patientInfo'
 import remindLog from '@/pages/remindLog'
@@ -15,33 +15,24 @@ import analyze from '@/pages/analyze'
 import spinsterhoodSat from '@/pages/spinsterhoodSat'
 
 const routes = [{
-  path: '/',
-  redirect: '/mainhome'
-}, { // 首页
   path: '',
+  redirect: '/mainHome'
+}, { // 首页
+  path: '/home',
   name: 'home',
   component: home,
   children: [{
-    path: '/mainhome',
-    name: 'mainhome',
-    component: mainhome,
-    meta: {
-      keepAlive: false
-    }
+    path: '/mainHome',
+    name: 'mainHome',
+    component: mainHome
   }, {
     path: '/patientManage',
     name: 'patientManage',
-    component: patientManage,
-    meta: {
-      keepAlive: false
-    }
+    component: patientManage
   }, {
     path: '/analyze',
     name: 'analyze',
-    component: analyze,
-    meta: {
-      keepAlive: false
-    }
+    component: analyze
   }]
 }, {
   path: '/statistics',

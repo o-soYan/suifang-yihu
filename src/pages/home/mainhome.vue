@@ -1,16 +1,28 @@
 <template>
   <div class="home">
     <div class="swipe">
-      <van-swipe :autoplay="3000">
+      <van-swipe :autoplay="10000">
         <van-swipe-item v-for="(image, index) in images" :key="index">
           <img :src="image" />
         </van-swipe-item>
       </van-swipe>
     </div>
 
-    <van-tabs color="#0BB9BF">
-      <van-tab title="发布中">
-        <div class="tab_content color_green">
+    <div class="tabBox">
+      <p @click="tabChange(0)" :class="activeItem === 0 ? 'active' : ''">
+        <span>发布中12</span>
+      </p>
+      <p @click="tabChange(1)" :class="activeItem === 1 ? 'active' : ''">
+        <span>已结束8</span>
+      </p>
+      <p @click="tabChange(2)" :class="activeItem === 2 ? 'active' : ''">
+        <span>异常患者1</span>
+      </p>
+      <i :style="{transform: 'translateX(' + transAnimate + 'rem)' +  'translateX(-50%)'}"></i>
+    </div>
+    <div class="tabContent">
+      <div class="oneContent" v-if="activeItem === 0">
+        <div class="tab_content">
           <div class="content_left">
             <div class="tab_name">满意度调查</div>
             <div class="tab_time_top color_one">PAC</div>
@@ -23,10 +35,10 @@
             <p class="progress">完成度</p>
           </div>
         </div>
-        <div class="tab_content blue">
+        <div class="tab_content">
           <div class="content_left">
             <div class="tab_name">用药提醒</div>
-            <div class="tab_time_top color_blue">流感</div>
+            <div class="tab_time_top">流感</div>
             <div class="tab_time">
               2019/10/22
             </div>
@@ -36,10 +48,10 @@
             <p class="progress">完成度</p>
           </div>
         </div>
-        <div class="tab_content orange">
+        <div class="tab_content">
           <div class="content_left">
             <div class="tab_name">复诊提醒</div>
-            <div class="tab_time_top color_orange">脂肪肝</div>
+            <div class="tab_time_top">脂肪肝</div>
             <div class="tab_time">
               2019/10/22
             </div>
@@ -49,9 +61,9 @@
             <p class="progress">完成度</p>
           </div>
         </div>
-      </van-tab>
-      <van-tab title="已结束">
-        <div class="tab_content color_green">
+      </div>
+      <div class="twoContent" v-if="activeItem === 1">
+        <div class="tab_content">
           <div class="content_left">
             <div class="tab_name">满意度调查</div>
             <div class="tab_time_top color_one">PAC</div>
@@ -64,10 +76,10 @@
             <p class="progress">完成度</p>
           </div>
         </div>
-        <div class="tab_content blue">
+        <div class="tab_content">
           <div class="content_left">
             <div class="tab_name">用药提醒</div>
-            <div class="tab_time_top color_blue">流感</div>
+            <div class="tab_time_top">流感</div>
             <div class="tab_time">
               2019/10/22
             </div>
@@ -77,10 +89,10 @@
             <p class="progress">完成度</p>
           </div>
         </div>
-        <div class="tab_content orange">
+        <div class="tab_content">
           <div class="content_left">
             <div class="tab_name">复诊提醒</div>
-            <div class="tab_time_top color_orange">脂肪肝</div>
+            <div class="tab_time_top">脂肪肝</div>
             <div class="tab_time">
               2019/10/22
             </div>
@@ -90,37 +102,11 @@
             <p class="progress">完成度</p>
           </div>
         </div>
-      </van-tab>
-      <van-tab title="异常患者">
-        <div class="abnormal_content">
-<!--          <div class="content_top">-->
-<!--            <div class="userLogo">-->
-<!--              <img src="../../assets/home.png" alt="" />-->
-<!--            </div>-->
-<!--            <div class="userInfo">-->
-<!--              <div class="userNa">-->
-<!--                <span class="userName">张小光</span>-->
-<!--                <span>男</span>-->
-<!--                <span>24岁</span>-->
-<!--              </div>-->
-<!--              <div class="userRecord">-->
-<!--                <span>随访3</span>-->
-<!--                <span>提醒1</span>-->
-<!--                <span>电话回访5</span>-->
-<!--              </div>-->
-<!--            </div>-->
-
-<!--            <div class="content_right">-->
-<!--              40-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="content_bottom">-->
-<!--            出院诊断: 病毒性高烧-->
-<!--          </div>-->
-          <patientItem :patientDatas='patientDatas'></patientItem>
-        </div>
-      </van-tab>
-    </van-tabs>
+      </div>
+      <div class="threeContent" v-if="activeItem === 2">
+        <patientItem :patientDatas='patientDatas'></patientItem>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -145,58 +131,106 @@ export default {
         yearsold: '225',
         pics: '感冒le',
         topic: '2'
-      }]
+      }],
+      activeItem: 0,
+      transAnimate: -2.1
     }
   },
   components: {
     patientItem
+  },
+  methods: {
+    tabChange (item) {
+      this.activeItem = item
+      if (item === 0) {
+        this.transAnimate = -2.1
+      } else if (item === 1) {
+        this.transAnimate = 0.2
+      } else {
+        this.transAnimate = 2.5
+      }
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
-.content_top {
-  padding: 0.9em;
-  display: flex;
-//   justify-content: space-between;
-  align-items: center
-}
-.content_top .userLogo {
-  flex: 1;
-}
-.content_top .userInfo {
-  flex: 4;
-  color: #333333;
-  font-size: 0.26rem
-}
-.content_top .userInfo .userName{
-color: #121212;
-font-size: 0.32rem;
-font-weight: 600;
-margin-right: 0.14rem
-}
-.content_top .userRecord {
-    margin-top: 0.3rem;
-    color: #979797;
-    font-size: 0.24rem;
-}
-.content_top .content_right {
-  color: #FF7D00;
-  background: #FFF6EE;
-  padding:0.09rem 0.2rem;
-  border-radius: 36%
-}
-.content_bottom {
-  border-top: #f6f6f6 0.02rem solid;
-  padding: 0.9em;
-  color: #979797;
-  font-size: 0.26rem;
+  .tabBox {
+    width:6.9rem;
+    margin: 0.3rem auto;
+    height:1.18rem;
+    background:rgba(255,255,255,1);
+    box-shadow:0px 0px 12px 0px rgba(238,238,238,1);
+    border-radius:6px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #f9f9f9;
+    position: relative;
+    p {
+      width: 33%;
+      text-align: center;
+      font-size:0.3rem;
+      color:rgba(160,160,160,1);
+      line-height:0.42rem;
+      &.active {
+        font-size:0.34rem;
+        color:rgba(51,51,51,1);
+        line-height:0.36rem;
+        span {
+          font-weight:900;
+        }
+      }
+    }
+    i {
+      display: inline-block;
+      width:0.44rem;
+      height:4px;
+      background:rgba(11,185,191,1);
+      border-radius:6px;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      margin-left: -0.22rem;
+      transition-duration: 0.3s;
+    }
+  }
+.tabContent {
+  padding: 0 0.3rem;
 }
 /deep/.van-tab {
   font-size: 0.3rem;
 }
 .swipe {
-  margin-bottom: 0.36rem;
+  /*margin-bottom: 0.36rem;*/
+  .van-swipe {
+    /*width: 6.9rem;*/
+    height: 2.88rem;
+    margin: 0.3rem;
+    /*box-sizing: border-box;*/
+    /*position: relative;*/
+    .van-swipe-item {
+      /*width: 6.9rem !important;*/
+      /*height: 2.88rem !important;*/
+      img {
+        width: 6.9rem;
+        height: 100%;
+      }
+    }
+    /deep/.van-swipe__indicators {
+      left: 1rem !important;
+      i {
+        display: inline-block;
+        width:0.44rem;
+        height:0.06rem;
+        background:rgba(236,237,240,1);
+        border-radius:0.04rem;
+        &.van-swipe__indicator--active {
+          background:rgba(158,165,186,1);
+        }
+      }
+    }
+  }
 }
 /deep/.van-tabs__nav--card {
   font-size: 50px;
@@ -211,31 +245,61 @@ margin-right: 0.14rem
   text-align: left;
 }
 .tab_content {
-  margin: 0.24rem 0.2rem;
+  margin: 0.24rem 0;
   padding: 0.9em;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 0 10px #d3d3d3;
-  border: 1px solid #dedede;
+  box-shadow:0px 0px 12px 0px rgba(238,238,238,1);
   border-radius: 0.12rem;
-}
-.color_green {
-  border-left: #0bb9bf 0.1rem solid;
-}
-.blue {
-  border-left: #2eadff 0.1rem solid;
-}
-.color_blue {
-  color: #2eadff !important;
-  background: #e7f5ff !important;
-}
-.orange {
-  border-left: #ffc92e 0.1rem solid;
-}
-.color_orange {
-  color: #ffc92e !important;
-  background: #fff7de !important;
+  position: relative;
+  .tab_time_top {
+    color: #0bb9bf;
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    width:0.08rem;
+    height:100%;
+    border-radius:0.1rem;
+    left: 0;
+    background:#0bb9bf;
+  }
+  &:first-child {
+    .tab_time_top {
+      color: #0bb9bf;
+    }
+    &:before {
+      background:#0bb9bf;
+    }
+  }
+  &:nth-child(2) {
+    .tab_time_top {
+      color: #2eadff;
+      background:#e7f5ff;
+    }
+    &:before {
+      background:#2eadff;
+    }
+  }
+  &:nth-child(3) {
+    .tab_time_top {
+      color: #ffc92e;
+      background:#fff7de;
+    }
+    &:before {
+      background:#ffc92e;
+    }
+  }
+  &:nth-child(4) {
+    .tab_time_top {
+      color: #f09999;
+      background:#fce9e9;
+    }
+    &:before {
+      background:#f09999;
+    }
+  }
 }
 .tab_content .content_left {
 }
@@ -244,18 +308,13 @@ margin-right: 0.14rem
 }
 .tab_content .content_right .percentum {
   color: #ff7d00;
-  font-weight: 550;
+  font-weight: 600;
   font-size: 0.54rem;
   padding-bottom: 0.16rem;
 }
 .tab_content .content_right .progress {
   color: #979797;
   font-size: 0.3rem;
-}
-/deep/.van-tab--active {
-  color: #333333;
-  font-size: 0.34rem;
-  font-weight: 600;
 }
 .tab_time {
   text-align: left;
@@ -265,7 +324,7 @@ margin-right: 0.14rem
 .tab_name {
   color: #333333;
   font-size: 0.34rem;
-  font-weight: 550;
+  font-weight: 600;
   padding-bottom: 0.2rem;
 }
 .tab_time_top {
@@ -273,7 +332,7 @@ margin-right: 0.14rem
   width: 68%;
   text-align: center;
   background: #e3f5f6;
-  color: #0bb9bf;
+  /*color: #0bb9bf;*/
   padding: 0.08rem 0.1rem;
   margin-bottom: 0.08rem;
 }

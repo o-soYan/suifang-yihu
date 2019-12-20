@@ -3,25 +3,26 @@
     <div class="patientBaseInfo">
       <div class="baseInfo">
         <div class="nameInfo">
-          <p class="name">李小欣</p>
+          <p class="name">{{patientInfo.name}}</p>
           <p class="info">
-            <span class="sex">女</span>
-            <span class="years">26岁</span>
-            <span class="birthday">199-01-04</span>
+            <span class="sex">{{patientInfo.sex === 2 ? '女' : '男'}}</span>
+            <span class="years">{{patientInfo.age}}岁</span>
+            <span class="birthday">{{patientInfo.birthday}}</span>
           </p>
         </div>
         <div class="patientLogo">
-          <img src="../assets/logo.png" alt="">
+          <img v-if="patientInfo.logo" :src="patientInfo.logo" alt="">
+          <img v-else src="../assets/logo.png" alt="">
         </div>
       </div>
       <div class="connectInfo">
         <div class="phone">
           <p class="title">联系方式</p>
-          <p class="num">15584967412</p>
+          <p class="num">{{patientInfo.contactPhone}}</p>
         </div>
         <div class="address">
           <p class="title">联系地址</p>
-          <p class="num">广州市海珠区</p>
+          <p class="num">{{patientInfo.contactAddress}}</p>
         </div>
       </div>
       <div class="patientAbout">
@@ -43,7 +44,7 @@
       <div class="infoTitle">基本信息</div>
       <div class="infoItem">
         <div class="itemTitle">院区</div>
-        <div class="itemResult">总院</div>
+        <div class="itemResult">{{patientInfo.clinic}}</div>
       </div>
       <div class="infoItem">
         <div class="itemTitle">文化程度</div>
@@ -51,7 +52,7 @@
       </div>
       <div class="infoItem">
         <div class="itemTitle">患者职业</div>
-        <div class="itemResult">-</div>
+        <div class="itemResult">{{patientInfo.career}}</div>
       </div>
       <div class="infoItem">
         <div class="itemTitle">患者户籍</div>
@@ -64,7 +65,78 @@
 <script>
 export default {
   data () {
-    return {}
+    return {
+      patientInfo: '',
+      logo: require('../assets/logo.png'),
+      patientId: ''
+    }
+  },
+  filters: {
+    dateSlice (n) {
+      return n.slice(0, 10)
+    },
+    timeSlice (n) {
+      return n.slice(11, 19)
+    }
+  },
+  created () {
+    this.patientId = this.$route.query.id
+    this.getBaseInfo()
+  },
+  methods: {
+    getBaseInfo () {
+      let self = this
+      let params = {
+        id: self.patientId,
+        pageSize: 1,
+        pageIndex: 1
+      }
+      self.$post('PatientBaseQuery', 'PACPatient', params).then(res => {
+        self.patientInfo = res.rows[0]
+        self.patientInfo.birthday = self.patientInfo.birthday.slice(0, 10)
+        self.patientInfo.age = self.getAge(self.patientInfo.birthday)
+      })
+    },
+    getAge (strBirthday) {
+      var returnAge
+      var strBirthdayArr = strBirthday.split('-')
+      var birthYear = strBirthdayArr[0]
+      var birthMonth = strBirthdayArr[1]
+      var birthDay = strBirthdayArr[2]
+
+      var d = new Date()
+      var nowYear = d.getFullYear()
+      var nowMonth = d.getMonth() + 1
+      var nowDay = d.getDate()
+
+      // eslint-disable-next-line eqeqeq
+      if (nowYear == birthYear) {
+        returnAge = 0
+      } else {
+        var ageDiff = nowYear - birthYear
+        if (ageDiff > 0) {
+          // eslint-disable-next-line eqeqeq
+          if (nowMonth == birthMonth) {
+            var dayDiff = nowDay - birthDay
+            if (dayDiff < 0) {
+              returnAge = ageDiff - 1
+            } else {
+              returnAge = ageDiff
+            }
+          } else {
+            var monthDiff = nowMonth - birthMonth
+            if (monthDiff < 0) {
+              returnAge = ageDiff - 1
+            } else {
+              returnAge = ageDiff
+            }
+          }
+        } else {
+          returnAge = -1
+        }
+      }
+      return returnAge
+    }
   }
 }
 </script>

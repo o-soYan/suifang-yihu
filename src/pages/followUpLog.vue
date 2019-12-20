@@ -11,7 +11,8 @@
     </div>
     <div class="tabContent">
       <van-search placeholder="请输入搜索关键词" />
-      <logItem :logDatas="logoData" :showStatus="true"></logItem>
+      <logItem v-if="activeItem === 0" :logType="'followUp'" :logDatas="logoData" :showStatus="true"></logItem>
+      <logItem v-if="activeItem === 1" :logType="'followUp'" :logDatas="logoData" :showStatus="false"></logItem>
     </div>
   </div>
 </template>

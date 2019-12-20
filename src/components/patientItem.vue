@@ -18,7 +18,7 @@
 <!--      </li>-->
 <!--    </ul>-->
     <ul>
-      <li v-for="(item, index) in patientDatas" :key="index">
+      <li v-for="(item, index) in patientDatas" :key="index" @click="clickItem(item.id)">
         <div class="patientBaseInfo">
           <div class="headerLogo">
             <img src="../assets/logo.png" alt="">
@@ -26,21 +26,21 @@
           <div class="patientInfo">
             <div class="nameSexInfo">
               <p>
-                <span class="name">{{item.name}}</span>
+                <span class="name">{{item.userName}}</span>
                 <span class="sex">{{item.sex}}</span>
                 <span class="sex">{{item.yearsold}}岁</span>
               </p>
-              <span class="num">{{item.topic}}</span>
+              <span class="num">{{item.fuvTimes}}</span>
             </div>
             <div class="patientHandle">
-              <span>随访3</span>
-              <span>提醒1</span>
-              <span>电话回访0</span>
+              <span>随访{{item.fuvTimes}}</span>
+              <span>提醒{{item.remindTimes}}</span>
+              <span>电话回访{{item.unfinishedTimes}}</span>
             </div>
           </div>
         </div>
         <div class="patientOutHosp">
-          <p>出院诊断：{{item.pics}}</p>
+          <p>出院诊断：{{item.rishHistroyName}}</p>
         </div>
       </li>
     </ul>
@@ -56,6 +56,11 @@ export default {
   },
   data () {
     return {}
+  },
+  methods: {
+    clickItem (id) {
+      this.$router.push({name: 'patientInfo', query: {id: id}})
+    }
   }
 }
 </script>

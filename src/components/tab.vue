@@ -48,6 +48,9 @@ export default {
 
 <style lang="less">
 .tab {
+  .van-tabbar {
+    height: 1rem;
+  }
   .van-tabbar-item {
     color: #999999;
     font-size: 0.2rem;
