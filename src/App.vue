@@ -1,12 +1,20 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
+    <loading></loading>
   </div>
 </template>
 
 <script>
+import loading from './components/loading'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    loading
+  }
 }
 </script>
 

@@ -10,30 +10,41 @@
     <div class="patientManageTop">
       <div class="contentBox">
         <div class="selectBox">
-          <div class="selectItem" @click="HospCompoundShow = true">
-            <span>{{HospCompoundName}}</span>
-            <i class="icon"></i>
-          </div>
+<!--          <div class="selectItem" @click="HospCompoundShow = true">-->
+<!--            <span>{{HospCompoundName}}</span>-->
+<!--            <i class="icon"></i>-->
+<!--          </div>-->
           <div class="selectItem" @click="departShow = true">
             <span>{{departName}}</span>
             <i class="icon"></i>
           </div>
-          <div class="selectItem">
-            <span>病症</span>
+          <div class="selectItem" @click="diseaseShow = true">
+            <span>{{diseaseName}}</span>
             <i class="icon"></i>
           </div>
         </div>
         <div class="searchBox">
           <van-icon name="search" />
           <form action="" style="width: 100%;" id="myform">
-            <input type="search" id="input"  v-model="searchValue" @keyup="searchPatient" placeholder="搜索患者姓名" />
+            <input type="search" id="input"  v-model="searchValue" @keyup.enter="searchPatient" placeholder="搜索患者姓名" />
           </form>
         </div>
       </div>
     </div>
     <div class="patientBox">
-      <patientItem v-if="searchValue === ''"  :patientDatas='patientDatas'></patientItem>
-      <patientItem v-else :patientDatas='searchList'></patientItem>
+      <van-pull-refresh v-if="!showNone " v-model="isLoading" @refresh="onRefresh">
+<!--        <van-list-->
+<!--          v-model="loading"-->
+<!--          :finished="finished"-->
+<!--          finished-text="没有更多了"-->
+<!--          @load="onLoad"-->
+<!--          :offset="100"-->
+<!--        >-->
+          <patientItem v-if="searchList.length === 0"  :patientDatas='patientDatas'></patientItem>
+          <patientItem v-else :patientDatas='searchList'></patientItem>
+<!--        </van-list>-->
+      </van-pull-refresh>
+      <none v-else></none>
     </div>
     <van-popup v-model="HospCompoundShow" position="bottom" :overlay="true">
       <!--          <van-picker :columns="columns" @change="onChange" />-->
@@ -55,12 +66,24 @@
         @confirm="onDepartChange"
       />
     </van-popup>
+    <van-popup v-model="diseaseShow" position="bottom" :overlay="true">
+      <!--          <van-picker :columns="columns" @change="onChange" />-->
+      <van-picker
+        show-toolbar
+        title=""
+        :columns="diseaseColums"
+        @cancel="onDiseaseCancel"
+        @confirm="onDiseaseChange"
+      />
+    </van-popup>
   </div>
 </template>
 
 <script>
 import sideTab from '@/components/sideTab'
 import patientItem from '@/components/patientItem'
+import none from '@/components/none'
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -76,41 +99,112 @@ export default {
       HospCompoundName: '院区',
       HospCompoundId: '',
       departList: [],
-      departColums: [],
+      departColums: ['科室'],
       departShow: false,
       departName: '科室',
-      departId: ''
+      departId: '',
+      diseaseList: [],
+      diseaseColums: ['病症'],
+      diseaseShow: false,
+      diseaseName: '病症',
+      diseaseId: '',
+      isLoading: false,
+      finished: false,
+      loading: false,
+      currentPage: 1,
+      pageSize: 10,
+      showNone: false
     }
   },
   components: {
     sideTab,
-    patientItem
+    patientItem,
+    none
   },
   created () {
     this.selectedDatas.push(this.patientDatas[0])
-    this.getHospCompound()
+    this.getDepartList()
+    this.getDisease()
+  },
+  mounted () {
+    this.patientDatas = []
+    this.currentPage = 1
     this.getAllPatient()
   },
+  watch: {
+    searchValue () {
+      if (this.searchValue.length === 0) {
+        this.searchList = []
+        this.patientDatas = []
+        this.currentPage = 1
+        this.getAllPatient()
+      }
+    }
+  },
   methods: {
+    ...mapActions([
+      'showLoading',
+      'hideLoading'
+    ]),
+    onRefresh () {
+      setTimeout(() => {
+        this.isLoading = false
+        this.patientDatas = []
+        this.currentPage = 1
+        this.searchList = []
+        if (this.searchValue.length > 0) {
+          this.searchPatient()
+        } else {
+          this.getAllPatient()
+        }
+      }, 500)
+    },
+    onLoad () {
+      if (this.searchValue.length > 0) {
+        this.searchPatient()
+      } else {
+        this.getAllPatient()
+        this.currentPage++
+      }
+    },
     // 获取列表
     getAllPatient () {
       let self = this
       let params = {
-        pac: '',
-        pageSize: 100,
-        pageIndex: 1
+        deptid: self.departId,
+        disId: self.diseaseId
       }
-      self.$post('Queryname', 'PACPatient', params).then(res => {
-        this.patientDatas = res.rows
+      self.showLoading({ msg: '加载中...', autoClose: false })
+      self.$get('PatientBaseQueryed', 'PACPatient', params).then(res => {
+        self.hideLoading()
+        self.loading = false
+        if (res.rows.length === 0) {
+          self.showNone = true
+        } else {
+          self.showNone = false
+        }
+        for (let i in res.rows) {
+          self.patientDatas.push(res.rows[i])
+        }
+        if (res.rows.length < self.pageSize) {
+          self.finished = true
+        } else {
+          self.finished = false
+        }
       })
     },
     // 搜索患者
     searchPatient () {
       let self = this
       // let params = {
-      //   tr: self.searchValue
+      //   tr: self.searchValue,
+      //   pageSize: 100,
+      //   pageIndex: 1
       // }
-      // self.$post('Queryname', 'PACPatient', params).then(res => {})
+      // self.$post('Queryname', 'PACPatient', params).then(res => {
+      //   self.searchList = res.rows
+      //   self.finished = true
+      // })
       var search = self.searchValue
       if (search) {
         self.searchList = self.patientDatas.filter(function (product) {
@@ -128,6 +222,11 @@ export default {
             )
           })
         })
+        if (self.searchList.length === 0) {
+          self.showNone = true
+        } else {
+          self.showNone = false
+        }
       }
     },
     // 获取院区信息
@@ -146,14 +245,15 @@ export default {
       })
     },
     // 获取科室列表
-    getDepartList (id) {
+    getDepartList () {
       let self = this
-      let params = {
-        id: id
-      }
-      self.$post('DepartmentQueryssss', 'PACPatient', params).then(res => {
+      // let params = {
+      //   id: id
+      // }
+      self.$post('DepartmentTypeOptions', 'PACPatient').then(res => {
         if (res.result) {
           self.departList = res.data
+          self.departColums = ['选择科室']
           for (let i in res.data) {
             self.departColums.push(res.data[i].deptName)
           }
@@ -182,10 +282,50 @@ export default {
     },
     onDepartChange (value, index) {
       this.departName = value
-      this.departId = this.departList[index].id
+      if (index === 0) {
+        this.departId = ''
+      } else {
+        this.departId = this.departList[index - 1].id
+      }
       this.departShow = false
-      this.getDepartList(this.departId)
+      this.patientDatas = []
+      this.currentPage = 1
+      this.getAllPatient()
+    },
+    //  病症
+    getDisease () {
+      let self = this
+      self.$post('DiseaseEntitiesTypes', 'PACPatient').then(res => {
+        if (res.result) {
+          self.diseaseList = res.data
+          self.diseaseColumns = ['选择病种']
+          for (let i in res.data) {
+            self.diseaseColums.push(res.data[i].diseaseName)
+          }
+        }
+      })
+    },
+    onDiseaseCancel () {
+      this.diseaseShow = false
+    },
+    onDiseaseChange (value, index) {
+      this.diseaseName = value
+      if (index === 0) {
+        this.diseaseId = ''
+      } else {
+        this.diseaseId = this.diseaseList[index - 1].id
+      }
+      this.diseaseShow = false
+      this.patientDatas = []
+      this.currentPage = 1
+      this.getAllPatient()
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    if (from.path === '/patientInfo' || from.path === '/analyze') {
+      from.meta.keepAlive = false
+    }
+    next()
   }
 }
 </script>
@@ -207,10 +347,10 @@ export default {
         align-items: center;
         border-bottom: 1px solid #f9f9f9;
         div {
-          flex-basis: 33%;
+          flex-basis: 50%;
           display: flex;
           justify-content: space-between;
-          padding: 0.1rem 0.34rem 0.1rem 0.24rem;
+          padding: 0.1rem 0.5rem 0.1rem 0.34rem;
           position: relative;
           line-height: 0.42rem;
           border-right: 1px solid #fbfbfb;
@@ -234,7 +374,7 @@ export default {
             border-left: 0.1rem solid transparent;
             border-bottom: 0.1rem solid transparent;
             position: absolute;
-            right: 0.08rem;
+            right: 0.24rem;
             top: 0.25rem;
           }
         }
@@ -257,9 +397,6 @@ export default {
         }
       }
     }
-  }
-  .patientBox {
-    padding: 0 0.3rem;
   }
 }
 </style>

@@ -10,95 +10,43 @@
 
     <div class="tabBox">
       <p @click="tabChange(0)" :class="activeItem === 0 ? 'active' : ''">
-        <span>发布中12</span>
+        <span>发布中{{tabOneData.length}}</span>
       </p>
       <p @click="tabChange(1)" :class="activeItem === 1 ? 'active' : ''">
-        <span>已结束8</span>
+        <span>已结束{{tabTwoData.length}}</span>
       </p>
       <p @click="tabChange(2)" :class="activeItem === 2 ? 'active' : ''">
-        <span>异常患者1</span>
+        <span>异常患者{{patientDatas.length}}</span>
       </p>
       <i :style="{transform: 'translateX(' + transAnimate + 'rem)' +  'translateX(-50%)'}"></i>
     </div>
     <div class="tabContent">
       <div class="oneContent" v-if="activeItem === 0">
-        <div class="tab_content">
+        <div class="tab_content" v-for="(item, index) in tabOneData" :key="index">
           <div class="content_left">
-            <div class="tab_name">满意度调查</div>
-            <div class="tab_time_top color_one">PAC</div>
+            <div class="tab_name">{{item.templateTitle}}</div>
+            <div class="tab_time_top color_one">{{item.diseaseName}}</div>
             <div class="tab_time">
-              2019/10/22
+              {{item.time | dateSlice}}
             </div>
           </div>
           <div class="content_right">
-            <p class="percentum">40%</p>
-            <p class="progress">完成度</p>
-          </div>
-        </div>
-        <div class="tab_content">
-          <div class="content_left">
-            <div class="tab_name">用药提醒</div>
-            <div class="tab_time_top">流感</div>
-            <div class="tab_time">
-              2019/10/22
-            </div>
-          </div>
-          <div class="content_right">
-            <p class="percentum">40%</p>
-            <p class="progress">完成度</p>
-          </div>
-        </div>
-        <div class="tab_content">
-          <div class="content_left">
-            <div class="tab_name">复诊提醒</div>
-            <div class="tab_time_top">脂肪肝</div>
-            <div class="tab_time">
-              2019/10/22
-            </div>
-          </div>
-          <div class="content_right">
-            <p class="percentum">40%</p>
+            <p class="percentum">{{item.percentage}}</p>
             <p class="progress">完成度</p>
           </div>
         </div>
       </div>
       <div class="twoContent" v-if="activeItem === 1">
-        <div class="tab_content">
+        <div class="tab_content" v-for="(item, index) in tabTwoData" :key="index">
           <div class="content_left">
-            <div class="tab_name">满意度调查</div>
-            <div class="tab_time_top color_one">PAC</div>
+            <div class="tab_name">{{item.templateTitle}}</div>
+            <div class="tab_time_top color_one">{{item.diseaseName}}</div>
             <div class="tab_time">
-              2019/10/22
+              {{item.time | dateSlice}}
             </div>
           </div>
           <div class="content_right">
-            <p class="percentum">40%</p>
-            <p class="progress">完成度</p>
-          </div>
-        </div>
-        <div class="tab_content">
-          <div class="content_left">
-            <div class="tab_name">用药提醒</div>
-            <div class="tab_time_top">流感</div>
-            <div class="tab_time">
-              2019/10/22
-            </div>
-          </div>
-          <div class="content_right">
-            <p class="percentum">40%</p>
-            <p class="progress">完成度</p>
-          </div>
-        </div>
-        <div class="tab_content">
-          <div class="content_left">
-            <div class="tab_name">复诊提醒</div>
-            <div class="tab_time_top">脂肪肝</div>
-            <div class="tab_time">
-              2019/10/22
-            </div>
-          </div>
-          <div class="content_right">
-            <p class="percentum">40%</p>
+            <p class="percentum">{{item.percentage}}</p>
             <p class="progress">完成度</p>
           </div>
         </div>
@@ -111,6 +59,7 @@
 </template>
 <script>
 import patientItem from '@/components/patientItem'
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -132,6 +81,8 @@ export default {
         pics: '感冒le',
         topic: '2'
       }],
+      tabOneData: [],
+      tabTwoData: [],
       activeItem: 0,
       transAnimate: -2.1
     }
@@ -139,7 +90,21 @@ export default {
   components: {
     patientItem
   },
+  filters: {
+    dateSlice (n) {
+      return n.slice(0, 10)
+    }
+  },
+  created () {
+    this.getTabOneData()
+    this.getTabTwoData()
+    this.getTabThreeData()
+  },
   methods: {
+    ...mapActions([
+      'showLoading',
+      'hideLoading'
+    ]),
     tabChange (item) {
       this.activeItem = item
       if (item === 0) {
@@ -149,7 +114,37 @@ export default {
       } else {
         this.transAnimate = 2.5
       }
+    },
+    getTabOneData () {
+      let self = this
+      self.$get('Beingreleased', 'PACPatient').then(res => {
+        if (res.result) {
+          self.tabOneData = res.row
+        }
+      })
+    },
+    getTabTwoData () {
+      let self = this
+      self.$get('Hasended', 'PACPatient').then(res => {
+        if (res.result) {
+          self.tabTwoData = res.row
+        }
+      })
+    },
+    getTabThreeData () {
+      let self = this
+      self.showLoading({ msg: '加载中...', autoClose: false })
+      self.$get('Abnormalpatients', 'PACPatient').then(res => {
+        if (res.result) {
+          self.patientDatas = res.row
+        }
+        self.hideLoading()
+      })
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    from.meta.keepAlive = false
+    next()
   }
 }
 </script>
@@ -195,7 +190,7 @@ export default {
       transition-duration: 0.3s;
     }
   }
-.tabContent {
+.oneContent, .twoContent {
   padding: 0 0.3rem;
 }
 /deep/.van-tab {
@@ -329,14 +324,10 @@ export default {
 }
 .tab_time_top {
   font-size: 0.3rem;
-  width: 68%;
   text-align: center;
   background: #e3f5f6;
   /*color: #0bb9bf;*/
-  padding: 0.08rem 0.1rem;
+  padding: 0.08rem 0.2rem;
   margin-bottom: 0.08rem;
-}
-.color_one {
-  width: 46% !important;
 }
 </style>

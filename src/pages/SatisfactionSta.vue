@@ -13,22 +13,19 @@
       <div v-show="activeItem === 0">
         <div class="swiper-container">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
+            <div class="swiper-slide" v-for="(item, index) in questionList" :key="index">
               <div class="questionStatistics">
-                <div class="questionTitle">Q1: 您认为满意度调查重要吗?</div>
-                <div id="sati" class="satiBar"></div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="questionStatistics">
-                <div class="questionTitle">Q2: 您认为满意度调查重要吗?</div>
-                <div id="sati1" class="satiBar"></div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="questionStatistics">
-                <div class="questionTitle">Q3: 您认为满意度调查重要吗?</div>
-                <div id="sati2" class="satiBar"></div>
+                <div class="questionTitle">Q{{index + 1}}: {{item.question}}</div>
+                <div :id="'sati' + index" class="satiBar"></div>
+                <div class="content">
+                  <template v-for="(aItem, aIndex) in item.answer">
+                    <div class="contentItem" :key="aIndex">
+                      <i :style="{background: colorArr[aIndex]}"></i>
+                      <span class="choise">{{aItem.val}}</span>
+                      <span class="peoples">{{aItem.peoples}}人</span>
+                    </div>
+                  </template>
+                </div>
               </div>
             </div>
           </div>
@@ -42,12 +39,12 @@
           <div class="list_content">
             <div class="userInfo">
               <div class="user_logo">
-                <img :src="item.src" alt="">
+                <img :src="item.logo" alt="">
               </div>
               <div class="answer_name">{{item.name}}</div>
             </div>
-            <div class="answer_state" :class="item.state === 1 ? '' : 'noDone'">
-              <span>{{item.state === 1 ? '已完成' : '未完成'}}</span>
+            <div class="answer_state" :class="item.isFinished === 1 ? '' : 'noDone'">
+              <span>{{item.isFinished === 1 ? '已完成' : '未完成'}}</span>
             </div>
 <!--            <div class="answer_details"><router-link to="/">查看详情</router-link></div>-->
           </div>
@@ -86,88 +83,131 @@ export default {
           name: '张000',
           state: 0
         }
-      ]
+      ],
+      questionList: [],
+      colorArr: ['#c23531', '#2f4554', '#6ab0b8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3', '#00bbc1']
     }
   },
   created () {
     this.windowHeight = window.innerHeight
-    console.log(window.innerHeight)
+    this.getPatientList()
   },
   methods: {
-    getEchartsa () {
-      // 基于准备好的dom，初始化echarts实例
-      var myChart = echarts.init(document.getElementById('sati'))
-      // 绘制图表
-      myChart.setOption({
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b}: {c} ({d}%)'
-        },
-        graphic: {
-          type: 'group',
-          children: [
-            {
-              type: 'text',
-              id: 'text1',
-              top: '50px',
-              style: {
-                text: '共1人',
-                fill: '#333',
-                font: 'normal 0.3rem Microsoft YaHei',
-                textAlign: 'center'
-              }
-            }, {
-              type: 'text',
-              id: 'text2',
-              top: '70px',
-              style: {
-                text: '回答',
-                fill: '#999999',
-                font: 'normal 0.3rem Microsoft YaHei',
-                textAlign: 'center'
-              }
-            }
-          ],
-          left: 'center',
-          top: 'center',
-          z: 2,
-          zlevel: 100
-        },
-        series: [
-          {
-            name: '访问来源',
-            type: 'pie',
-            radius: ['53%', '85%'],
-            label: {
-              show: false
-            },
-            data: [
-              { value: 35, name: '一般' },
-              { value: 48, name: '非常重要' },
-              { value: 19, name: '无关紧要' }
-              //   { value: 147, name: '必应' }
-              //   {value: 102, name: '其他'}
-            ]
-          }
-        ]
-      })
-      setTimeout(function () {
-        window.onresize = function () {
-          myChart.resize()
+    getEchartsa (index, datas) {
+      this.$nextTick(() => {
+        let peoples = 0
+        for (let i in datas) {
+          peoples = peoples + datas[i].value
         }
-      }, 200)
+        let ele = document.getElementById('sati' + index)
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(ele)
+        // 绘制图表
+        myChart.setOption({
+          color: this.colorArr,
+          tooltip: {
+            trigger: 'item',
+            formatter: '{a}<br/>{b}：{c}人 ({d}%)'
+          },
+          graphic: {
+            type: 'group',
+            children: [
+              {
+                type: 'text',
+                id: 'text1',
+                top: '50px',
+                style: {
+                  text: '共' + peoples + '人',
+                  fill: '#333',
+                  font: 'normal 0.3rem Microsoft YaHei',
+                  textAlign: 'center'
+                }
+              }, {
+                type: 'text',
+                id: 'text2',
+                top: '70px',
+                style: {
+                  text: '回答',
+                  fill: '#999999',
+                  font: 'normal 0.3rem Microsoft YaHei',
+                  textAlign: 'center'
+                }
+              }
+            ],
+            left: 'center',
+            top: 'center',
+            z: 2,
+            zlevel: 100
+          },
+          series: [
+            {
+              name: '',
+              type: 'pie',
+              radius: ['53%', '85%'],
+              label: {
+                show: false
+              },
+              data: datas
+            }
+          ]
+        })
+        setTimeout(function () {
+          window.onresize = function () {
+            myChart.resize()
+          }
+        }, 200)
+      })
+    },
+    getDatas () {
+      let self = this
+      self.$get('StatisticsreportQuery', 'PACPatient').then(res => {
+        if (res.result) {
+          self.questionList = res.data
+          let answer = []
+          let answerObj = {}
+          let allAnswer = []
+          for (let i in res.data) {
+            allAnswer.push(answer)
+            answer = []
+            answerObj = {}
+            for (let k in res.data[i].answer) {
+              let item = res.data[i].answer[k]
+              answerObj = {
+                value: item.peoples,
+                name: item.val
+              }
+              answer.push(answerObj)
+            }
+          }
+          allAnswer.push(answer)
+          allAnswer.shift()
+          for (let j in allAnswer) {
+            this.getEchartsa(j, allAnswer[j])
+          }
+        }
+      })
     },
     clickPerson () {
       this.$router.push({name: 'DoneQuesDetail'})
+    },
+    getPatientList () {
+      let self = this
+      self.$get('Answerdetails', 'PACPatient').then(res => {
+        if (res.result) {
+          self.personnel = res.row
+        }
+      })
     }
   },
   mounted () {
-    this.getEchartsa()
+    this.getDatas()
     // eslint-disable-next-line no-new
     new Swiper('.swiper-container', {
       direction: 'horizontal',
       loop: false,
       autoplay: 5000,
+      observer: true,
+      observeParents: true,
       slidesPerView: 'auto',
       centeredSlides: true,
       spaceBetween: 10,
@@ -182,6 +222,11 @@ export default {
         }
       }
     })
+  },
+  // 修改列表页的meta值，false时再次进入页面会重新请求数据。
+  beforeRouteEnter (to, from, next) {
+    from.meta.keepAlive = true
+    next()
   }
 }
 </script>
@@ -303,42 +348,6 @@ color: #2c3e50;
 font-size: 0.32rem;
 text-decoration: underline
 }
-/*.statistics_list {*/
-/*  position: relative;*/
-/*  margin: 20px;*/
-/*  display: flex;*/
-/*  justify-content: space-between;*/
-/*  // align-content: center;*/
-/*}*/
-/*.statistics_name {*/
-/*  flex: 4;*/
-/*  margin-left: 20px;*/
-/*}*/
-/*.dot {*/
-/*  flex: 1;*/
-/*  position: absolute;*/
-/*  bottom: 10px;*/
-/*  left: -0.12rem;*/
-/*}*/
-/*.dot div {*/
-/*  width: 10px;*/
-/*  height: 10px;*/
-/*  background: #3399ff;*/
-/*  border-radius: 50%;*/
-/*  margin-bottom: 25px;*/
-/*  left: 20px;*/
-/*}*/
-/*.dot div:nth-child(2) {*/
-/*  background: darkblue;*/
-/*}*/
-/*.dot div:last-child {*/
-/*  margin-bottom: 0px;*/
-/*  background: maroon;*/
-/*}*/
-/*.statistics_result {*/
-/*  flex: 4;*/
-/*  text-align: center;*/
-/*}*/
 .SatisfactionSta {
   font-size: 0.34rem;
 }
@@ -412,6 +421,33 @@ text-decoration: underline
       margin: 0.6rem auto 0;
       div {
         height: 100% !important;
+      }
+    }
+    .content {
+      /*display: flex;*/
+      /*justify-content: space-between;*/
+      text-align: left;
+      margin-top: 0.3rem;
+      .contentItem {
+        padding: 0.16rem 0;
+        /*flex-basis: 50%;*/
+        display: inline-block;
+        width: 50%;
+        text-align: center;
+      }
+      i {
+        display: inline-block;
+        width: 0.16rem;
+        height: 0.16rem;
+        border-radius: 50%;
+      }
+      .choise {
+        color: #333333;
+        font-size: 0.28rem;
+      }
+      .peoples {
+        color: #999999;
+        font-size: 0.28rem;
       }
     }
   }

@@ -1,13 +1,18 @@
 <template>
   <div class='logItemContainer'>
-    <div class="item" v-for="(item, index) in logDatas" :key="index" @click="clickLogItem">
+    <div class="item" v-for="(item, index) in logDatas" :key="index" @click="clickLogItem(item.templateId, item.isFinished)">
       <div class="itemContent">
-        <p class="name">{{item.name}}</p>
-        <p class="time">随访日期：{{item.time}}</p>
+        <p class="name">{{item.templateTitle}}</p>
+        <p class="time">{{showStatus ? '随访日期' : '提醒日期'}}：{{item.createDate | dateSlice}}</p>
       </div>
-      <div class="itemStatus" v-if="showStatus">
-        未完成
-      </div>
+      <template v-if="showStatus">
+        <div class="itemStatus" v-if="item.isFinished">
+          已完成
+        </div>
+        <div class="itemStatus noDoneStatus" v-else>
+          未完成
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -25,15 +30,27 @@ export default {
       type: String
     }
   },
+  filters: {
+    dateSlice (n) {
+      return n.slice(0, 10)
+    },
+    timeSlice (n) {
+      return n.slice(11, 19)
+    }
+  },
   data () {
     return {}
   },
   methods: {
-    clickLogItem () {
+    clickLogItem (id, isDone) {
       if (this.logType === 'remind') {
         this.$router.push({name: 'remindLogDetail'})
       } else {
-        this.$router.push({name: 'DoneQuesDetail'})
+        if (isDone) {
+          this.$router.push({name: 'DoneQuesDetail', query: {id: id}})
+        } else {
+          this.$router.push({name: 'noDoQuesDetail', query: {id: id}})
+        }
       }
     }
   }
@@ -54,6 +71,7 @@ export default {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    margin: 0.3rem;
     .itemContent {
       flex: 6;
       text-align: left;
@@ -79,6 +97,10 @@ export default {
       font-size:0.24rem;
       color:rgba(11,185,191,1);
       line-height:0.36rem;
+      &.noDoneStatus {
+        color:rgba(255,125,0,1);
+        background:rgba(255,246,238,1);
+      }
     }
   }
 }

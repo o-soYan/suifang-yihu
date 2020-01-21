@@ -1,40 +1,34 @@
 <template>
   <div class="doQuestions container">
-    <Header
-      :isTitle="true"
-      title="预览"
-      :isScan="false"
-      :isBack="true">
-    </Header>
     <div class="allContent">
       <div class="topTitle">
-        <div class="title">问卷调查</div>
-        <div class="topic">感谢您能抽出几分钟时间来参加本次答题，现在我们开始吧！</div>
+        <div class="title">{{greetings.title}}</div>
+        <div class="topic">{{greetings.greetings}}</div>
       </div>
       <div class="questionsContent">
-        <div class="questionItem" v-for="(item, index) in choices" :key="index">
-          <p class="itemTitle">1、您的名字 <i>*</i></p>
+        <div class="questionItem" v-for="(item, index) in itemDatas" :key="index">
+          <p class="itemTitle">{{index+1}}、{{item.stem}} <i v-if="item.isRequired">*</i></p>
           <!-- 此处根据问题类型显示-->
           <!-- 如果是输入框-->
-          <div class="isInput" v-if="item.type == 1">
-            <div class="cell">
-              <input id="js_input" class="weui-input" placeholder="请输入您的姓名">
-            </div>
-          </div>
+<!--          <div class="isInput" v-if="item.category == 2">-->
+<!--            <div class="cell">-->
+<!--              <input id="js_input" class="weui-input" placeholder="请输入您的回答">-->
+<!--            </div>-->
+<!--          </div>-->
 <!--          如果是单选-->
-          <div class="isOneChoice" v-if="item.type == 3">
-            <div class="cell" :class="cItem.is ? 'cellClick' : ''" v-for="(cItem, cIndex) in item.items" :key="cIndex" @click="oneChoiceClick(index, cIndex)">
-              <i class="iconfont" :class="cItem.is ? 'icon-yuan' : 'icon-circle-empty'"></i> {{cItem.font}}
+          <div class="isOneChoice" v-if="item.category == 0">
+            <div class="cell" :class="cItem.is ? 'cellClick' : ''" v-for="(cItem, cIndex) in item.questionItems" :key="cIndex" @click="oneChoiceClick(index, cIndex)">
+              <i class="iconfont" :class="cItem.is ? 'icon-yuan' : 'icon-circle-empty'"></i> {{cItem.content}}
             </div>
           </div>
 <!--          如果是复选-->
-          <div class="isAnyChoice" v-if="item.type == 1">
-            <div class="cell" :class="cItem.is ? 'cellClick' : ''" v-for="(cItem, cIndex) in item.items" :key="cIndex" @click="anyChoiceClick(index, cIndex)">
-              <i class="iconfont" :class="cItem.is ? 'icon-yuan' : 'icon-circle-empty'"></i> {{cItem.font}}
+          <div class="isAnyChoice" v-if="item.category == 1">
+            <div class="cell" :class="cItem.is ? 'cellClick' : ''" v-for="(cItem, cIndex) in item.questionItems" :key="cIndex" @click="anyChoiceClick(index, cIndex)">
+              <i class="iconfont" :class="cItem.is ? 'icon-yuan' : 'icon-circle-empty'"></i> {{cItem.content}}
             </div>
           </div>
           <!--          如果是填空-->
-          <div class="isTextarea">
+          <div class="isTextarea" v-if="item.category == 2">
             <div class="cell">
               <textarea class="weui-textarea" placeholder="请描述你所发生的问题"></textarea>
             </div>
@@ -46,12 +40,8 @@
 </template>
 
 <script>
-import Header from '@/components/header'
 export default {
   name: 'doQuestions',
-  components: {
-    Header
-  },
   data () {
     return {
       rightBtn: { // header 右侧按钮
@@ -78,27 +68,60 @@ export default {
           font: '女1',
           is: false
         }]
-      }]
+      }],
+      itemDatas: [],
+      greetings: '',
+      quesId: ''
     }
+  },
+  created () {
+    this.quesId = this.$route.query.id
+    this.getQuestionDetail()
   },
   methods: {
     handleText () {
       this.$router.push({name: 'home'})
     },
+    getQuestionDetail () {
+      let self = this
+      let params = {
+        id: self.quesId
+      }
+      self.$get('QuestionItemDetail', 'PACPatient', params).then(res => {
+        if (res.result) {
+          self.itemDatas = res.row.questions
+          self.greetings = res.row.templateBase
+          for (let i in self.itemDatas) {
+            if (self.itemDatas[i].category === 0 || self.itemDatas[i].category === 1) {
+              for (let k in self.itemDatas[i].items) {
+                self.itemDatas[i].items[k].is = false
+              }
+            }
+          }
+        }
+      })
+    },
     // 单选
     oneChoiceClick (pIndex, cIndex) {
-      let item = this.choices[pIndex].items
+      let item = this.itemDatas[pIndex].questionItems
       for (let i in item) {
         if (i !== cIndex) {
           item[i].is = false
         }
       }
-      this.choices[pIndex].items[cIndex].is = true
+      this.$set(this.itemDatas[pIndex].questionItems[cIndex], 'is', true)
+      this.$forceUpdate()
     },
     // 多选
     anyChoiceClick (pIndex, cIndex) {
-      this.choices[pIndex].items[cIndex].is = !this.choices[pIndex].items[cIndex].is
+      this.itemDatas[pIndex].questionItems[cIndex].is = !this.itemDatas[pIndex].questionItems[cIndex].is
+      this.$forceUpdate()
     }
+  },
+  // 修改列表页的meta值，false时再次进入页面会重新请求数据。
+  beforeRouteLeave (to, from, next) {
+    from.meta.keepAlive = true
+    next()
   }
 }
 </script>
@@ -118,6 +141,7 @@ export default {
     .topic {
       font-size: 0.34rem;
       line-height: 1.5;
+      text-align: justify;
     }
   }
   .questionsContent {

@@ -26,21 +26,21 @@
           <div class="patientInfo">
             <div class="nameSexInfo">
               <p>
-                <span class="name">{{item.userName}}</span>
-                <span class="sex">{{item.sex}}</span>
-                <span class="sex">{{item.yearsold}}岁</span>
+                <span class="name">{{item.name}}</span>
+                <span class="sex">{{item.sex == 2 ? '女' : '男'}}</span>
+                <span class="sex">{{item.age}}</span>
               </p>
-              <span class="num">{{item.fuvTimes}}</span>
+              <span class="num">{{item.frequency || item.fuvTimes}}</span>
             </div>
-            <div class="patientHandle">
-              <span>随访{{item.fuvTimes}}</span>
-              <span>提醒{{item.remindTimes}}</span>
-              <span>电话回访{{item.unfinishedTimes}}</span>
-            </div>
+<!--            <div class="patientHandle">-->
+<!--              <span>随访{{item.fuvTimes}}</span>-->
+<!--              <span>提醒{{item.remindTimes}}</span>-->
+<!--              <span>电话回访{{item.unfinishedTimes}}</span>-->
+<!--            </div>-->
           </div>
         </div>
         <div class="patientOutHosp">
-          <p>出院诊断：{{item.rishHistroyName}}</p>
+          <p>出院诊断：{{item.diagnose}}</p>
         </div>
       </li>
     </ul>
@@ -75,7 +75,7 @@ export default {
     background:rgba(255,255,255,1);
     box-shadow:0px 0px 12px 0px rgba(238,238,238,1);
     border-radius:6px;
-    margin-bottom: 0.2rem;
+    margin: 0 0.3rem 0.2rem;
     .patientBaseInfo {
       padding: 0.3rem 0.42rem;
       border-bottom: 1px solid #fbfbfb;
@@ -96,6 +96,8 @@ export default {
         .nameSexInfo {
           display: flex;
           justify-content: space-between;
+          height: 100%;
+          align-items: center;
           .name {
             font-size:0.32rem;
             font-weight:600;
@@ -122,6 +124,7 @@ export default {
           }
         }
         .patientHandle {
+          display: none;
           font-size:0.24rem;
           color:rgba(151,151,151,1);
           line-height:0.34rem;

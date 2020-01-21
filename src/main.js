@@ -8,6 +8,7 @@ import './assets/js/rem'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 import { ajaxUtil } from './common/request'
+import store from './store'
 Vue.request = ajaxUtil
 Vue.prototype.$post = ajaxUtil.post
 Vue.prototype.$get = ajaxUtil.get
@@ -20,6 +21,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

@@ -1,20 +1,14 @@
 <template>
   <div class="detailContainer">
     <div class="content">
-      <div class="item">
+      <div class="item" v-for="(item, index) in questionList" :key="index">
         <div class="quesTitle">
-          Q1: 您的性别？
+          Q{{index + 1}}: {{item.question}}
         </div>
         <div class="quesAns">
-          男
-        </div>
-      </div>
-      <div class="item">
-        <div class="quesTitle">
-          Q1: 您的性别？
-        </div>
-        <div class="quesAns">
-          男
+          <template v-for="(aItem, aIndex) in item.answer">
+            <span :key="aIndex">{{aItem.val}}{{index === item.answer.length - 1 ? '' : '，'}}</span>
+          </template>
         </div>
       </div>
     </div>
@@ -22,8 +16,40 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
-  name: 'detail'
+  name: 'detail',
+  data () {
+    return {
+      quesId: '',
+      questionList: []
+    }
+  },
+  created () {
+    this.quesId = this.$route.query.id
+    this.getQuestionList()
+  },
+  methods: {
+    ...mapActions([
+      'showLoading',
+      'hideLoading'
+    ]),
+    getQuestionList () {
+      let self = this
+      self.showLoading({ msg: '加载中...', autoClose: false })
+      self.$get('Viewdetails', 'PACPatient').then(res => {
+        if (res.result) {
+          self.questionList = res.data
+        }
+        self.hideLoading()
+      })
+    }
+  },
+  // 修改列表页的meta值，false时再次进入页面会重新请求数据。
+  beforeRouteLeave (to, from, next) {
+    from.meta.keepAlive = true
+    next()
+  }
 }
 </script>
 

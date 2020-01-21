@@ -3,118 +3,58 @@
     <div class="patientManageTop">
       <div class="contentBox">
         <div class="selectBox">
-          <div class="selectItem" @click="HospCompoundShow = true">
-            <span>{{HospCompoundName}}</span>
-            <i class="icon"></i>
-          </div>
+<!--          <div class="selectItem" @click="HospCompoundShow = true">-->
+<!--            <span>{{HospCompoundName}}</span>-->
+<!--            <i class="icon"></i>-->
+<!--          </div>-->
           <div class="selectItem" @click="departShow = true">
             <span>{{departName}}</span>
             <i class="icon"></i>
           </div>
-          <div class="selectItem">
-            <span>病症</span>
+          <div class="selectItem" @click="diseasePopShow">
+            <span>{{diseaseName}}</span>
+            <i class="icon"></i>
+          </div>
+          <div class="selectItem" @click="typePopShow">
+            <span>{{typeName}}</span>
             <i class="icon"></i>
           </div>
         </div>
         <div class="searchBox">
           <van-icon name="search" />
-          <input type="text" placeholder="搜索患者姓名">
+<!--          <input type="text" placeholder="搜索患者姓名">-->
           <form action="" style="width: 100%;" id="myform">
             <input type="search" id="input"  v-model="searchValue" @keyup="searchContent" placeholder="搜索内容" />
           </form>
         </div>
       </div>
     </div>
-    <div class="contentBox">
-      <div class="item">
-        <div class="title" @click="clickThis">手术药流统计</div>
-      </div>
+    <div class="contentBox" v-if="!searchValue">
+      <template v-if="typeJudge === 0">
+        <div class="item" v-for="(item, index) in baseType" :key="index">
+          <div class="title" @click="clickThis(item.type)">{{item.name}}</div>
+        </div>
+      </template>
+      <template v-else>
+        <div class="item" v-for="(item, index) in fovList" :key="index">
+          <div class="title" @click="clickThis(item.id)">{{item.planTitle}}</div>
+        </div>
+        <none v-if="fovList.length === 0"></none>
+      </template>
     </div>
-<!--    <form action="/">-->
-<!--      <van-search-->
-<!--        v-model="value"-->
-<!--        placeholder="请输入搜索关键词"-->
-<!--        show-action-->
-<!--        @search="onSearch"-->
-<!--        @cancel="onCancel"-->
-<!--        shape="round"-->
-<!--      />-->
-<!--    </form>-->
-<!--    <div class="tag_content">-->
-<!--      <van-tag type="primary " size="large ">PAC</van-tag>-->
-<!--      <van-tag type="success " size="large">脂肪胺</van-tag>-->
-<!--    </div>-->
-
-<!--    <sideTab :datas="tabDatas" @tabClick="tabClick">-->
-<!--      <template v-for="(item, index) in tabDatas">-->
-<!--        <div class="tabItem" :key="index" v-if="slected === index">-->
-<!--          <div class="tabContent">-->
-<!--            <div v-if="index === 0">-->
-<!--              <ul>-->
-<!--                <li>-->
-<!--                  <router-link to="/statistics">手术药流统计</router-link>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <router-link to="/spinsterhoodSat">未婚已婚统计</router-link>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <router-link to="/">流产次数统计</router-link>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <router-link to="/">避孕方案统计</router-link>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <router-link to="/">首月随访统计</router-link>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <router-link to="/">一个月随访统计</router-link>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <router-link to="/">三个月随访统计</router-link>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <router-link to="/">六个月随访统计</router-link>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <router-link to="/">十二个月随访统计</router-link>-->
-<!--                </li>-->
-<!--              </ul>-->
-<!--            </div>-->
-<!--            <div v-if="index === 1">-->
-<!--              <ul>-->
-<!--                <li>-->
-<!--                  <router-link to="/">统计</router-link>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <router-link to="/">统计</router-link>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <router-link to="/">流产</router-link>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <router-link to="/">避孕</router-link>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <router-link to="/">首月随访统计</router-link>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <router-link to="/">一个月随访统计</router-link>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <router-link to="/">三个月随访统计</router-link>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <router-link to="/">六个统计</router-link>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <router-link to="/">十统计</router-link>-->
-<!--                </li>-->
-<!--              </ul>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </template>-->
-<!--    </sideTab>-->
+    <div class="contentBox" v-else>
+      <template v-if="typeIndex === 0">
+        <div class="item" v-for="(item, index) in searchList" :key="index">
+          <div class="title" @click="clickThis(item.type)">{{item.name}}</div>
+        </div>
+      </template>
+      <template v-else>
+        <div class="item" v-for="(item, index) in searchList" :key="index">
+          <div class="title" @click="clickThis(item.id)">{{item.planTitle}}</div>
+        </div>
+      </template>
+      <none v-if="searchList.length === 0"></none>
+    </div>
     <van-popup v-model="HospCompoundShow" position="bottom" :overlay="true">
       <!--          <van-picker :columns="columns" @change="onChange" />-->
       <van-picker
@@ -135,16 +75,50 @@
         @confirm="onDepartChange"
       />
     </van-popup>
+    <van-popup v-model="typeShow" position="bottom" :overlay="true">
+      <!--          <van-picker :columns="columns" @change="onChange" />-->
+      <van-picker
+        show-toolbar
+        title=""
+        :columns="tabDatas"
+        @cancel="onTypeCancel"
+        @confirm="onTypeChange"
+      />
+    </van-popup>
+    <van-popup v-model="diseaseShow" position="bottom" :overlay="true">
+      <!--          <van-picker :columns="columns" @change="onChange" />-->
+      <van-picker
+        show-toolbar
+        title=""
+        :columns="diseaseColumns"
+        @cancel="onDiseaseCancel"
+        @confirm="onDiseaseChange"
+      />
+    </van-popup>
   </div>
 </template>
 
 <script>
 import sideTab from '@/components/sideTab'
+import none from '@/components/none'
 export default {
   data () {
     return {
       value: '',
       tabDatas: ['基本信息统计', '随访统计'],
+      baseType: [{
+        name: '手术药流统计',
+        type: 'yl'
+      }, {
+        name: '未婚已婚统计',
+        type: 'hunyin'
+      }, {
+        name: '流产次数统计',
+        type: 'liuchan'
+      }, {
+        name: '避孕方案统计',
+        type: 'by'
+      }],
       slected: 0,
       searchValue: '',
       searchList: [],
@@ -158,14 +132,26 @@ export default {
       departColums: [],
       departShow: false,
       departName: '科室',
-      departId: ''
+      departId: '',
+      typeShow: false,
+      typeName: '基本信息统计',
+      typeIndex: 0,
+      diseaseName: '病种',
+      diseaseShow: false,
+      diseaseColumns: [],
+      diseaseList: ['病种'],
+      diseaseId: '',
+      fovList: [],
+      typeJudge: 0
     }
   },
   components: {
-    sideTab
+    sideTab,
+    none
   },
   created () {
-    this.getHospCompound()
+    this.getDepartList()
+    this.getDiseaseData()
   },
   methods: {
     // 搜索内容
@@ -177,21 +163,39 @@ export default {
       // self.$post('Queryname', 'PACPatient', params).then(res => {})
       var search = self.searchValue
       if (search) {
-        self.searchList = self.analyzeList.filter(function (product) {
-          // 每一项数据
-          // console.log(product)
-          return Object.keys(product).some(function (key) {
-            // 每一项数据的参数名
-            // console.log(key)
-            return (
-              String(product[key])
-              // toLowerCase() 方法用于把字符串转换为小写。
-                .toLowerCase()
-                // indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置。
-                .indexOf(search) > -1
-            )
+        if (self.typeIndex === 0) {
+          self.searchList = self.baseType.filter(function (product) {
+            // 每一项数据
+            // console.log(product)
+            return Object.keys(product).some(function (key) {
+              // 每一项数据的参数名
+              // console.log(key)
+              return (
+                String(product[key])
+                // toLowerCase() 方法用于把字符串转换为小写。
+                  .toLowerCase()
+                  // indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置。
+                  .indexOf(search) > -1
+              )
+            })
           })
-        })
+        } else {
+          self.searchList = self.fovList.filter(function (product) {
+            // 每一项数据
+            // console.log(product)
+            return Object.keys(product).some(function (key) {
+              // 每一项数据的参数名
+              // console.log(key)
+              return (
+                String(product[key])
+                  // toLowerCase() 方法用于把字符串转换为小写。
+                  .toLowerCase()
+                  // indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置。
+                  .indexOf(search) > -1
+              )
+            })
+          })
+        }
       }
     },
     // 获取院区信息
@@ -209,15 +213,31 @@ export default {
         }
       })
     },
-    // 获取科室列表
-    getDepartList (id) {
+    // 获取随访列表
+    getFovList () {
       let self = this
       let params = {
-        id: id
+        deptid: self.departId,
+        disId: self.diseaseId
       }
-      self.$post('DepartmentQueryssss', 'PACPatient', params).then(res => {
+      self.$get('FuvPublishPlanQuery', 'PACPatient', params).then(res => {
+        if (res.result) {
+          self.fovList = res.data
+        }
+      })
+    },
+    // 获取科室列表
+    getDepartList () {
+      let self = this
+      // let params = {
+      //   id: id
+      // }
+      self.$post('DepartmentTypeOptions', 'PACPatient').then(res => {
         if (res.result) {
           self.departList = res.data
+          self.departColums = ['选择科室']
+          self.departName = res.data[0].deptName
+          self.departId = res.data[0].id
           for (let i in res.data) {
             self.departColums.push(res.data[i].deptName)
           }
@@ -227,8 +247,12 @@ export default {
     tabClick (index) {
       this.slected = index
     },
-    clickThis () {
-      this.$router.push({name: 'SatisfactionSta'})
+    clickThis (type) {
+      if (this.typeJudge === 0) {
+        this.$router.push({name: 'statistics', query: {type: type, deptid: this.departId, disId: this.diseaseId}})
+      } else {
+        this.$router.push({name: 'statisticsItem', query: {type: type, deptid: this.departId, disId: this.diseaseId}})
+      }
     },
     onSearch () {},
     // 院区
@@ -247,10 +271,71 @@ export default {
     },
     onDepartChange (value, index) {
       this.departName = value
-      this.departId = this.departList[index].id
+      if (index === 0) {
+        this.departId = ''
+      } else {
+        this.departId = this.departList[index - 1].id
+      }
       this.departShow = false
-      this.getDepartList(this.departId)
+      if (this.typeJudge === 1) {
+        this.getFovList()
+      }
+      // this.getDepartList(this.departId)
+    },
+    // 病种
+    getDiseaseData () {
+      let self = this
+      self.$post('DiseaseEntitiesTypes', 'PACPatient').then(res => {
+        if (res.result) {
+          self.diseaseColumns = ['选择病种']
+          self.diseaseList = res.data
+          for (let i in res.data) {
+            self.diseaseColumns.push(res.data[i].diseaseName)
+          }
+        }
+      })
+    },
+    diseasePopShow () {
+      this.diseaseShow = true
+    },
+    onDiseaseCancel () {
+      this.diseaseShow = false
+    },
+    onDiseaseChange (value, index) {
+      this.diseaseName = value
+      if (index === 0) {
+        this.diseaseId = ''
+      } else {
+        this.diseaseId = this.diseaseList[index - 1].id
+      }
+      if (this.typeJudge === 1) {
+        this.getFovList()
+      }
+      this.diseaseShow = false
+    },
+    // 分类
+    typePopShow () {
+      this.typeShow = true
+    },
+    onTypeCancel () {
+      this.typeShow = false
+    },
+    onTypeChange (value, index) {
+      this.typeName = value
+      this.typeShow = false
+      this.typeIndex = index
+      this.typeJudge = index
+      if (index === 1) {
+        this.getFovList()
+      }
     }
+  },
+  // 修改列表页的meta值，false时再次进入页面会重新请求数据。
+  beforeRouteEnter (to, from, next) {
+    if (from.path === '/statistics' || from.path === '/statisticsItem') {
+      from.meta.keepAlive = false
+    }
+    next()
   }
 }
 </script>

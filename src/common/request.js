@@ -1,9 +1,12 @@
 import Vue from 'vue'
 // import axios from 'axios'
 import _ from 'underscore'
+import store from '../store'
+import router from '../router'
+import { Notify } from 'vant'
 let serverTimeout = 30000
 const debug = process.env.NODE_ENV !== 'production'
-let baseAddress = 'http://192.168.4.165:8002/api/'
+let baseAddress = 'http://medicalcareapi.gdbkyz.com/api/'
 // eslint-disable-next-line no-undef
 const service = axios.create({
   baseAddress,
@@ -135,7 +138,7 @@ let clientBodyPost = function (action, controller, query, data, ajaxGlobal) {
   service(Object.assign({
     method: 'POST',
     url: url,
-    // params: newObj,
+    params: data,
     data: newObj
   })).then((res) => {
     if (resolveProxy) resolveProxy(res.data)
@@ -183,11 +186,14 @@ let clientDelete = function (action, controller, query, data, ajaxGlobal) {
 let loadCount = 0
 // 添加请求拦截器
 service.interceptors.request.use(function (config) {
+  config.headers['Work-Token'] = 'vNMiK0i3CVjE6Nv4A86HMCVVD0JJ4U8Ifq0wF6syDhmPcPOLWCNRmawgvoa3qbsE8S5xpK4b9wFexDbI6kefbnVsH1ss%252bU7hHQ49PGHhMdcZr0aH35ZeZ5Sk7d6GB4iHJ5DVa9bS7TyZXRYnCR7y2cAjkkGcCbrbxb7eEORMzWgIuZzxXgZxG5BmUrwBDmgZi%252fCnxFMc98ViW4Yf8v%252fLGHvgYdeYSKi03ToYwAEOby%252bn5OYijD7TlTl9%252fX8CB05tmUACebjvABs7Pt9QOcRy4T5dzo%252bhlR0CfdOeEktyDV1nmKprb0fb%252fe1WEaxSGWMYDg9nlv3woOnIoh4xhBgrUz7L80R5bRJ3GP4063zN%252bUSaFEE1UGdkg40wDgY6TMrbk%252fTuj4uON1nVx%252b4EMRmu0PHbO7rx6iQO3SorwiLJLllxtvQ%252fFioikVal%252boi5qegq'
   // 在发送请求之前做些什么
   loadCount = loadCount++
   return config
 }, function (error) {
   // 对请求错误做些什么
+  Notify(error.message)
+  store.state.global.loading.isShow = false
   return Promise.reject(error)
 })
 
@@ -197,7 +203,38 @@ service.interceptors.response.use(function (response) {
   loadCount = loadCount--
   return response
 }, function (error) {
-// 对响应错误做点什么
+  // 对响应错误做点什么
+  if (error && error.response) {
+    switch (error.response.status) {
+      case 400:
+        error.message = '错误请求'
+        break
+      case 401:
+        error.message = '未授权，重新登录'
+        break
+      case 403:
+        error.message = '拒绝访问'
+        break
+      case 404:
+        error.message = '请求错误，未找到资源'
+        router.replace({name: '404'})
+        break
+      case 405:
+        error.message = '请求方法未允许'
+        break
+      case 500:
+        error.message = '服务器出错'
+        router.replace({name: '500'})
+        break
+      default:
+        error.message = `连接错误${error.response.status}`
+    }
+  } else {
+    error.message = '网络出现问题，请稍后再试'
+    router.replace({name: '500'})
+  }
+  store.state.global.loading.isShow = false
+  Notify(error.message)
   loadCount = loadCount--
   return Promise.reject(error)
 })
