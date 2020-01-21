@@ -25,7 +25,7 @@ module.exports = {
     app: './src/main.js'
   },
   externals: {
-    // 'vue': 'Vue',
+    'vue': 'Vue',
     // 'vant': 'Vant',
     'axios': 'axios',
     // 'echarts': 'echarts',
